@@ -3,6 +3,7 @@ package com.udea.autoevaluacion.services;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.udea.autoevaluacion.dtos.RegisterDTO;
 import com.udea.autoevaluacion.dtos.UserDTO;
 import com.udea.autoevaluacion.models.User;
 import com.udea.autoevaluacion.repositories.UserRepository;
@@ -18,13 +19,22 @@ public class RegisterService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User register(UserDTO userDTO) {
-        String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
-        User user = User.builder()
-                .username(userDTO.getUsername())
-                .email(userDTO.getEmail())
+    public UserDTO register(RegisterDTO registerDTO) {
+        String encodedPassword = passwordEncoder.encode(registerDTO.getPassword());
+        UserDTO userDTO = new UserDTO();
+
+        User user = userRepository.save(User.builder()
+                .email(registerDTO.getEmail())
+                .address(registerDTO.getAddress())
+                .companyName(registerDTO.getCompanyName())
                 .password(encodedPassword)
-                .build();
-        return userRepository.save(user);
+                .build());
+
+        userDTO.setId(user.getId());
+        userDTO.setCompanyName(user.getCompanyName());
+        userDTO.setAddress(user.getAddress());
+        userDTO.setEmail(user.getEmail());
+
+        return userDTO;
     }
 }
