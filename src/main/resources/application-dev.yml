@@ -1,6 +1,10 @@
 spring:
   application:
     name: autoevaluacion
+    server.context-path: /api
+
+    frontend:
+      origin: http://localhost:3000
 
     jpa:
       database: postgresql

@@ -1,6 +1,10 @@
 spring:
   application:
     name: autoevaluacion
+    server.context-path: /api
+
+    frontend:
+      origin: https://ejemplo.com #Cambiar esto por la URL donde se despliega el frontend luego
 
     jpa:
       database: postgresql
