@@ -1,21 +1,21 @@
 spring:
   application:
     name: autoevaluacion
-    server.context-path: /api
+  jpa:
+    database: postgresql
+    show-sql: false
 
-    frontend:
-      origin: http://localhost:3000
+  datasource:
+    plataform: postgresql
+    url: jdbc:postgresql://db:5432/autoevaluacion
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
 
-    jpa:
-      database: postgresql
-      show-sql: false
+server:
+  port: 8080
+  servlet:
+    context-path: /api
 
-    datasource:
-      plataform: postgresql
-      url: jdbc:postgresql://localhost:5432/autoevaluacion
-      username: postgres
-      password: root
-      driver-class-name: org.postgresql.Driver
-
-  server:
-    port: 8080
+frontend:
+  origin: http://localhost:3000
