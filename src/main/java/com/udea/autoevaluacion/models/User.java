@@ -1,6 +1,6 @@
 package com.udea.autoevaluacion.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -19,7 +19,7 @@ public class RegisterService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserDTO register(RegisterDTO registerDTO) {
+    public UserDTO register(RegisterDTO registerDTO) {;
         String encodedPassword = passwordEncoder.encode(registerDTO.getPassword());
         UserDTO userDTO = new UserDTO();
 

@@ -12,7 +12,7 @@ spring:
 
     datasource:
       plataform: postgresql
-      url: jdbc:postgresql://localhost:5432/autoevaluacion
+      url: jdbc:postgresql://dev:5432/autoevaluacion
       username: postgres
       password: root
       driver-class-name: org.postgresql.Driver

@@ -1,17 +1,21 @@
 package com.udea.autoevaluacion.dtos;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class RegisterDTO {
     @NotBlank(message = "La contraseña no puede ser vacía")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
