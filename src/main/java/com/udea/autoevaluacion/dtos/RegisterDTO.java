@@ -17,17 +17,26 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RegisterDTO {
-    @NotBlank(message = "La contraseña no puede ser vacía")
-    @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
-    private String password;
+    @NotBlank(message = "El nombre no puede ser vacío")
+    private String firstName;
+
+    @NotBlank(message = "El apellido no puede ser vacío")
+    private String lastName;
 
     @NotBlank(message = "El email no puede ser vacío")
     @Email(message = "Formato de email inválido")
     private String email;
 
-    @NotBlank(message = "El nombre de la empresa no puede ser vacío")
-    private String companyName;
+    @NotBlank(message = "La contraseña no puede ser vacía")
+    @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
+    private String password;
 
-    @NotBlank(message = "La dirección no puede ser vacía")
-    private String address;
+    @NotBlank(message = "El cargo no puede ser vacío")
+    private String jobTitle;
+
+    @NotBlank(message = "Los años de experiencia no pueden ser vacíos")
+    private String yearsOfExperienceTechnology;
+
+    @NotBlank(message = "El ID de la empresa no puede ser vacío")
+    private Long companyId;
 }
