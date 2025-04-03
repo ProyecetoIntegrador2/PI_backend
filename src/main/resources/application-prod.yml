@@ -1,3 +1,4 @@
+# Actualizar para cuando se tenga que desplegar. El formato tiene que ser mas o menos igual al de dev.
 spring:
   application:
     name: autoevaluacion

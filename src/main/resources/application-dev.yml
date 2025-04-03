@@ -4,6 +4,8 @@ spring:
   jpa:
     database: postgresql
     show-sql: false
+    hibernate:
+      ddl-auto: create
 
   datasource:
     plataform: postgresql

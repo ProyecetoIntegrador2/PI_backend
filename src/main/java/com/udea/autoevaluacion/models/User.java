@@ -17,15 +17,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
-    private String companyName;
-
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String jobTitle;
+
+    @Column(nullable = false)
+    private String yearsOfExperienceTechnology;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 }
