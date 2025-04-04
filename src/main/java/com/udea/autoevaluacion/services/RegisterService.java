@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.udea.autoevaluacion.dtos.CompanyDTO;
+import com.udea.autoevaluacion.dtos.RegisterCompanyDTO;
 import com.udea.autoevaluacion.dtos.RegisterUserDTO;
 import com.udea.autoevaluacion.dtos.UserDTO;
 import com.udea.autoevaluacion.models.Company;
@@ -40,6 +41,7 @@ public class RegisterService {
                 .build());
 
         UserDTO userDTO = UserDTO.builder()
+                .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
@@ -51,19 +53,25 @@ public class RegisterService {
         return userDTO;
     }
 
-    public CompanyDTO registerCompany(CompanyDTO companyDTO) {
+    public CompanyDTO registerCompany(RegisterCompanyDTO registerCompanyDTO) {
         Company company = companyRepository.save(Company.builder()
-                .name(companyDTO.getName())
-                .address(companyDTO.getAddress())
-                .phoneNumber(companyDTO.getPhoneNumber())
+                .name(registerCompanyDTO.getName())
+                .organizationType(registerCompanyDTO.getOrganizationType())
+                .organizationSector(registerCompanyDTO.getOrganizationSector())
+                .country(registerCompanyDTO.getCountry())
+                .numberOfEmployees(registerCompanyDTO.getNumberOfEmployees())
                 .build());
 
-        return CompanyDTO.builder()
+        CompanyDTO companyDTO = CompanyDTO.builder()
                 .id(company.getId())
                 .name(company.getName())
-                .address(company.getAddress())
-                .phoneNumber(company.getPhoneNumber())
+                .organizationType(company.getOrganizationType())
+                .organizationSector(company.getOrganizationSector())
+                .country(company.getCountry())
+                .numberOfEmployees(company.getNumberOfEmployees())
                 .build();
+
+        return companyDTO;
 
     }
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyDTO {
+    private Long id;
     private String name;
     private String organizationType;
     private String organizationSector;
