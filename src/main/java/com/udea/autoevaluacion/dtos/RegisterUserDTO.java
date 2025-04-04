@@ -6,17 +6,13 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class RegisterDTO {
+public class RegisterUserDTO {
     @NotBlank(message = "El nombre no puede ser vacío")
     private String firstName;
 
