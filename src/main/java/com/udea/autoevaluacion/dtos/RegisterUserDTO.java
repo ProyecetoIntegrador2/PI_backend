@@ -1,6 +1,7 @@
 package com.udea.autoevaluacion.dtos;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -33,6 +34,6 @@ public class RegisterUserDTO {
     @NotBlank(message = "Los años de experiencia no pueden ser vacíos")
     private String yearsOfExperienceTechnology;
 
-    @NotBlank(message = "El ID de la empresa no puede ser vacío")
+    @NotNull(message = "El ID de la empresa no puede ser vacío")
     private Long companyId;
 }
