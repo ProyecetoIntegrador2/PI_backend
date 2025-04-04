@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.udea.autoevaluacion.dtos.RegisterDTO;
+import com.udea.autoevaluacion.dtos.RegisterUserDTO;
 import com.udea.autoevaluacion.dtos.UserDTO;
 import com.udea.autoevaluacion.services.RegisterService;
 
@@ -27,7 +27,11 @@ public class RegisterController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterDTO registerDTO) {
-        return new ResponseEntity<>(registerService.register(registerDTO), HttpStatus.CREATED);
+    public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
+        return new ResponseEntity<>(registerService.registerUser(registerUserDTO), HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<UserDTO> registerCompany(@Valid @RequestBody RegisterUserDTO registerDTO) {
+        return new ResponseEntity<>(registerService.registerUser(registerDTO), HttpStatus.CREATED);
     }
 }

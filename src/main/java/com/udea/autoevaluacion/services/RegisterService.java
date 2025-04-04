@@ -3,7 +3,8 @@ package com.udea.autoevaluacion.services;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.udea.autoevaluacion.dtos.RegisterDTO;
+import com.udea.autoevaluacion.dtos.CompanyDTO;
+import com.udea.autoevaluacion.dtos.RegisterUserDTO;
 import com.udea.autoevaluacion.dtos.UserDTO;
 import com.udea.autoevaluacion.models.Company;
 import com.udea.autoevaluacion.models.User;
@@ -23,18 +24,18 @@ public class RegisterService {
         this.companyRepository = companyRepository;
     }
 
-    public UserDTO register(RegisterDTO registerDTO) {;
-        String encodedPassword = passwordEncoder.encode(registerDTO.getPassword());
+    public UserDTO registerUser(RegisterUserDTO registerUserDTO) {;
+        String encodedPassword = passwordEncoder.encode(registerUserDTO.getPassword());
 
-        Company company = companyRepository.findById(registerDTO.getCompanyId()).orElseThrow(() -> new IllegalArgumentException("Empresa no encontrada"));
+        Company company = companyRepository.findById(registerUserDTO.getCompanyId()).orElseThrow(() -> new IllegalArgumentException("Empresa no encontrada"));
 
         User user = userRepository.save(User.builder()
-                .firstName(registerDTO.getFirstName())
-                .lastName(registerDTO.getLastName())
-                .email(registerDTO.getEmail())
+                .firstName(registerUserDTO.getFirstName())
+                .lastName(registerUserDTO.getLastName())
+                .email(registerUserDTO.getEmail())
                 .password(encodedPassword)
-                .jobTitle(registerDTO.getJobTitle())
-                .yearsOfExperienceTechnology(registerDTO.getYearsOfExperienceTechnology())
+                .jobTitle(registerUserDTO.getJobTitle())
+                .yearsOfExperienceTechnology(registerUserDTO.getYearsOfExperienceTechnology())
                 .company(company)
                 .build());
 
@@ -46,6 +47,23 @@ public class RegisterService {
                 .companyName(company.getName())
                 .yearsOfExperienceTechnology(user.getYearsOfExperienceTechnology())
                 .build();
+
         return userDTO;
+    }
+
+    public CompanyDTO registerCompany(CompanyDTO companyDTO) {
+        Company company = companyRepository.save(Company.builder()
+                .name(companyDTO.getName())
+                .address(companyDTO.getAddress())
+                .phoneNumber(companyDTO.getPhoneNumber())
+                .build());
+
+        return CompanyDTO.builder()
+                .id(company.getId())
+                .name(company.getName())
+                .address(company.getAddress())
+                .phoneNumber(company.getPhoneNumber())
+                .build();
+
     }
 }
