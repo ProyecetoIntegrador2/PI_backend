@@ -3,6 +3,7 @@ package com.udea.autoevaluacion.controllers;
 import com.udea.autoevaluacion.constants.EndpointsConstants;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginDTO loginDTO) throws Exception {
         return new ResponseEntity<>(loginService.login(loginDTO), HttpStatus.ACCEPTED);
     }
