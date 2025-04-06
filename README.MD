@@ -29,14 +29,46 @@ Herramienta para apoyar procesos de transformación digital.
     docker compose down
     ```
 
-### Apis disponibles
-
+Por defecto la aplicacion se abre en:
 ```
-localhost:8080/api/health
-localhost:8080/api/register
-localhost:8080/api/login
+localhost:8080
 ```
 
+### APIs Disponibles
+Todas las apis tienen el prefijo **/api**
+```bash
+/api/health
+/api/register/user
+/api/register/company
+/api/login
+/api/companies # Devuelve todas las compañias en una lista
+```
+
+Y la forma en como estan establecidos los usuarios y compañias es la siguiente:
+
+**Usuario**\
+*Nota: Para el api de login solo es necesario el email y password*
+```json
+{
+  "firstName": "",
+  "lastName": "",
+  "email": "",
+  "password": "",
+  "jobTitle": "",
+  "yearsOfExperienceTechnology": "",
+  "companyId": 
+}
+```
+**Compañia**
+```json
+{
+  "name": "",
+  "organizationType": "",
+  "organizationSector": "",
+  "country": "",
+  "numberOfEmployees": ""
+}
+```
 
 ### Perfiles
 Cambiar entre perfiles dev y prod. (WIP)
