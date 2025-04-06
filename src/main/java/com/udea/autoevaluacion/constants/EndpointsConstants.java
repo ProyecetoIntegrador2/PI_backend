@@ -5,6 +5,7 @@ public class EndpointsConstants {
     public static final String LOGIN_URL = "/login";
     public static final String REGISTER_URL = "/register";
     public static final String USER_URL = "/user/{id}";
+    public static final String COMPANIES_URL= "/companies";
     public static final String LOGOUT_URL = "/logout";
     public static final String PROFILE_URL = "/profile";
 
