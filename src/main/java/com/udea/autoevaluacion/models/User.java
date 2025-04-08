@@ -1,5 +1,7 @@
 package com.udea.autoevaluacion.models;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,4 +40,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
+
+    @OneToMany(mappedBy = "user")
+    private List<FormSubmission> formSubmissions;
 }
