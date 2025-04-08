@@ -1,9 +1,5 @@
 package com.udea.autoevaluacion.models;
 
-import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,19 +11,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "form_submissions")
-public class FormSubmission {
+@Table(name = "form_questions")
+public class FormQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime submissionDate;
+    private int questionNumber;
 
-    @Column(columnDefinition = "jsonb")
-    private JsonNode formData;
+    @Column(nullable = false)
+    private String questionText;   
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "form_parts_id", nullable = false)
+    private FormPart formParts;
 }
