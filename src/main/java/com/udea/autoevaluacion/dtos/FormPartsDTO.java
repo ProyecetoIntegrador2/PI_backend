@@ -19,6 +19,12 @@ public class FormPartsDTO {
     @NotBlank(message = "El nombre de parte del formulario no puede ser vacío")
     private String partName;
 
+    @NotBlank(message = "El ID del formulario no puede ser vacío")
+    private String formSubmissionId;
+
     @NotBlank(message = "Las preguntas de la parte no pueden estar vacias")
-    private List<FormQuestionsDTO> questions;
+    private List<FormQuestionsDTO> formQuestions;
+
+    @NotBlank(message = "Las métricas no pueden estar vacías")
+    private SubmissionMetricsDTO submissionMetrics;
 }

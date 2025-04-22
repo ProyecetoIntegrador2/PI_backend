@@ -30,7 +30,7 @@ public class FormPart {
     private FormSubmission formSubmission;
 
     @OneToMany(mappedBy = "formParts")
-    private List<FormQuestion> questions;
+    private List<FormQuestion> formQuestions;
 
     @OneToOne(mappedBy = "submission_metrics")
     private SubmissionMetrics submissionMetrics;
