@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FormPartsDTO {
+public class SubmissionPartDTO {
     @NotBlank(message = "El número de parte del formulario no puede ser vacío")
     private int partNumber;
 
@@ -20,10 +20,10 @@ public class FormPartsDTO {
     private String partName;
 
     @NotBlank(message = "El ID del formulario no puede ser vacío")
-    private String formSubmissionId;
+    private String submissionId;
 
     @NotBlank(message = "Las preguntas de la parte no pueden estar vacias")
-    private List<FormQuestionsDTO> formQuestions;
+    private List<SubmissionAnswerDTO> submissionAnswers;
 
     @NotBlank(message = "Las métricas no pueden estar vacías")
     private SubmissionMetricsDTO submissionMetrics;
