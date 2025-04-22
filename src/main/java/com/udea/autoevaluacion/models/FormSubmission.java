@@ -1,8 +1,7 @@
 package com.udea.autoevaluacion.models;
 
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,8 +23,8 @@ public class FormSubmission {
     @Column(nullable = false)
     private LocalDateTime submissionDate;
 
-    @Column(columnDefinition = "jsonb")
-    private JsonNode formData;
+    @OneToMany(mappedBy = "formSubmission")
+    private List<FormPart> formParts;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

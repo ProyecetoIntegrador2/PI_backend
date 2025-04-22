@@ -25,6 +25,13 @@ public class FormPart {
     @Column(nullable = false)
     private String partName;
 
+    @ManyToOne
+    @JoinColumn(name = "form_submission_id", nullable = false)
+    private FormSubmission formSubmission;
+
     @OneToMany(mappedBy = "formParts")
     private List<FormQuestion> questions;
+
+    @OneToOne(mappedBy = "submission_metrics")
+    private SubmissionMetrics submissionMetrics;
 }
