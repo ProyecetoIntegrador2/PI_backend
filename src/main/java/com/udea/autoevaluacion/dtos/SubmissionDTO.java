@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FormSubmissionDTO {
+public class SubmissionDTO {
     @NotBlank(message = "El ID de usuario no puede ser vacío")
     private String userId;
 
@@ -21,5 +21,5 @@ public class FormSubmissionDTO {
     private LocalDateTime submissionDate;
 
     @NotBlank(message = "Los datos del formulario no pueden ser vacíos")
-    private List<FormPartsDTO> formParts;
+    private List<SubmissionPartDTO> submissionParts;
 }

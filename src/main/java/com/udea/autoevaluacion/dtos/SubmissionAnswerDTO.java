@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FormQuestionsDTO {
+public class SubmissionAnswerDTO {
     @NotBlank(message = "El número de pregunta no puede ser vacío")
     private int questionNumber;
 
