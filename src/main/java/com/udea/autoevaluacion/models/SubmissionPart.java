@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "form_parts")
-public class FormPart {
+public class SubmissionPart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,11 +26,11 @@ public class FormPart {
     private String partName;
 
     @ManyToOne
-    @JoinColumn(name = "form_submission_id", nullable = false)
-    private FormSubmission formSubmission;
+    @JoinColumn(name = "submission_id", nullable = false)
+    private Submission submission;
 
-    @OneToMany(mappedBy = "formParts")
-    private List<FormQuestion> formQuestions;
+    @OneToMany(mappedBy = "submissionPart")
+    private List<SubmissionAnswer> submissionQuestions;
 
     @OneToOne(mappedBy = "submission_metrics")
     private SubmissionMetrics submissionMetrics;

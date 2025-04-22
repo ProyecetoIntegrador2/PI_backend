@@ -42,5 +42,5 @@ public class User {
     private Company company;
 
     @OneToMany(mappedBy = "user")
-    private List<FormSubmission> formSubmissions;
+    private List<Submission> submissions;
 }

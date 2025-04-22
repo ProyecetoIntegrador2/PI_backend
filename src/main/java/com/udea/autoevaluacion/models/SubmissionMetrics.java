@@ -21,7 +21,7 @@ public class SubmissionMetrics {
 
     @OneToOne
     @JoinColumn(name = "form_part_id", nullable = false)
-    private FormPart formPart;
+    private SubmissionPart submissionPart;
 
     @Column(nullable = false)
     private int averageActualScore;
