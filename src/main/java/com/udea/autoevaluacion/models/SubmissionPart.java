@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "form_parts")
+@Table(name = "submission_parts")
 public class SubmissionPart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +32,6 @@ public class SubmissionPart {
     @OneToMany(mappedBy = "submissionPart")
     private List<SubmissionAnswer> submissionQuestions;
 
-    @OneToOne(mappedBy = "submission_metrics")
+    @OneToOne(mappedBy = "submissionPart")
     private SubmissionMetrics submissionMetrics;
 }

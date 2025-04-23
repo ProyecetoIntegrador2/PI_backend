@@ -1,5 +1,7 @@
 package com.udea.autoevaluacion.models;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,19 +13,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "submission_questions")
-public class SubmissionAnswer {
+@Table(name = "form_definitions")
+public class FormDefinition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private int questionNumber;
+    private String name;
 
     @Column(nullable = false)
-    private String questionText;   
+    private String version;
 
-    @ManyToOne
-    @JoinColumn(name = "submission_part_id", nullable = false)
-    private SubmissionPart submissionPart;
+    @OneToMany(mappedBy = "formDefinition")
+    private List<PartDefinition> partDefinitions;
 }
