@@ -20,7 +20,7 @@ public class SubmissionMetrics {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "form_part_id", nullable = false)
+    @JoinColumn(name = "submission_part_id", nullable = false)
     private SubmissionPart submissionPart;
 
     @Column(nullable = false)

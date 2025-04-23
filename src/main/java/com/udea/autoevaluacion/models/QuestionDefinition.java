@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "submission_questions")
-public class SubmissionAnswer {
+@Table(name = "part_definitions")
+public class QuestionDefinition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,9 +21,9 @@ public class SubmissionAnswer {
     private int questionNumber;
 
     @Column(nullable = false)
-    private String questionText;   
+    private String questionText;
 
     @ManyToOne
-    @JoinColumn(name = "submission_part_id", nullable = false)
-    private SubmissionPart submissionPart;
+    @JoinColumn(name = "part_definition_id", nullable = false)
+    private PartDefinition partDefinition;
 }
