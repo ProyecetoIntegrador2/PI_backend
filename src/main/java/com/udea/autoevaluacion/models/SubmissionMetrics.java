@@ -26,6 +26,9 @@ public class SubmissionMetrics {
     @Column(nullable = false)
     private int averageActualScore;
 
+    @Column(nullable = false)
+    private int averageDesiredScore;
+
     //Criterio de mayoría calificada
     @Column(name = "qualified_majority_criterion")
     private BigDecimal qualifiedMajorityCriterion;
