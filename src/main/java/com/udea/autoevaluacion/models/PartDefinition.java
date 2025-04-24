@@ -31,4 +31,7 @@ public class PartDefinition {
 
     @OneToMany(mappedBy = "partDefinition")
     private List<QuestionDefinition> questionDefinitions;
+
+    @OneToMany(mappedBy = "partDefinition")
+    private List<SubmissionPart> submissionParts;
 }

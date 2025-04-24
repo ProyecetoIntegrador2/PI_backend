@@ -1,5 +1,7 @@
 package com.udea.autoevaluacion.models;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,4 +28,7 @@ public class QuestionDefinition {
     @ManyToOne
     @JoinColumn(name = "part_definition_id", nullable = false)
     private PartDefinition partDefinition;
+
+    @OneToMany(mappedBy = "questionDefinition")
+    private List<SubmissionAnswer> submissionAnswers;
 }

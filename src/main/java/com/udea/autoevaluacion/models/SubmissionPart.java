@@ -19,8 +19,9 @@ public class SubmissionPart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private int partNumber;
+    @ManyToOne
+    @JoinColumn(name = "part_definition_id", nullable = false)
+    private PartDefinition partDefinition;
 
     @ManyToOne
     @JoinColumn(name = "submission_id", nullable = false)
