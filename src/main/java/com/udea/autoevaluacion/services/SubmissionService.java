@@ -76,7 +76,7 @@ public class SubmissionService {
             
             submissionPart.setPartNumber(registerSubmissionPartDTO.getPartNumber());
             submissionPart.setSubmission(submission);
-            submissionPart.setSubmissionQuestions(submissionAnswers);
+            submissionPart.setSubmissionAnswers(submissionAnswers);
             submissionPart.setSubmissionMetrics(null);
 
             submissionParts.add(submissionPart);
