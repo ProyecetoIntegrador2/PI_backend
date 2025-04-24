@@ -1,14 +1,21 @@
 package com.udea.autoevaluacion.services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import com.udea.autoevaluacion.dtos.RegisterSubmissionAnswerDTO;
 import com.udea.autoevaluacion.dtos.RegisterSubmissionDTO;
+import com.udea.autoevaluacion.dtos.RegisterSubmissionPartDTO;
 import com.udea.autoevaluacion.dtos.SubmissionDTO;
 import com.udea.autoevaluacion.models.FormDefinition;
 import com.udea.autoevaluacion.models.Submission;
+import com.udea.autoevaluacion.models.SubmissionAnswer;
+import com.udea.autoevaluacion.models.SubmissionPart;
 import com.udea.autoevaluacion.models.User;
 import com.udea.autoevaluacion.repositories.FormDefinitionRepository;
 import com.udea.autoevaluacion.repositories.SubmissionAnswerRepository;
@@ -16,6 +23,8 @@ import com.udea.autoevaluacion.repositories.SubmissionMetricsRepository;
 import com.udea.autoevaluacion.repositories.SubmissionPartRepository;
 import com.udea.autoevaluacion.repositories.SubmissionRepository;
 import com.udea.autoevaluacion.repositories.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class SubmissionService {
@@ -39,6 +48,7 @@ public class SubmissionService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public SubmissionDTO createSubmission(RegisterSubmissionDTO registerSubmissionDTO) {
         Submission submission = new Submission();
 
@@ -51,7 +61,30 @@ public class SubmissionService {
 
         LocalDateTime submissionDate = LocalDateTime.now();
 
-        
+        List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO = registerSubmissionDTO.getRegisterSubmissionParts();
+        List<SubmissionPart> submissionParts = new ArrayList<>();
+        for (RegisterSubmissionPartDTO registerSubmissionPartDTO : registerSubmissionPartsDTO) {
+            SubmissionPart submissionPart = new SubmissionPart();
+
+            List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO = registerSubmissionPartDTO.getRegisterSubmissionAnswers();
+            List<SubmissionAnswer> submissionAnswers = registerSubmissionAnswersDTO.stream()
+                            .map(answer -> SubmissionAnswer.builder()
+                            .questionNumber(answer.getQuestionNumber())
+                            .submissionPart(submissionPart)
+                            .build())
+                            .collect(Collectors.toList());
+            
+            submissionPart.setPartNumber(registerSubmissionPartDTO.getPartNumber());
+            submissionPart.setSubmission(submission);
+            submissionPart.setSubmissionQuestions(submissionAnswers);
+            submissionPart.setSubmissionMetrics(null);
+
+            submissionParts.add(submissionPart);
+        }
+        submission.setSubmissionDate(submissionDate);
+        submission.setSubmissionParts(submissionParts);
+        submission.setUser(user);
+        submission.setFormDefinition(formDefinition);
 
         return null;
     }

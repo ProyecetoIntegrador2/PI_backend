@@ -22,9 +22,6 @@ public class SubmissionPart {
     @Column(nullable = false)
     private int partNumber;
 
-    @Column(nullable = false)
-    private String partName;
-
     @ManyToOne
     @JoinColumn(name = "submission_id", nullable = false)
     private Submission submission;
