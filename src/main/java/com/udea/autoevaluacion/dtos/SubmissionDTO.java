@@ -3,15 +3,11 @@ package com.udea.autoevaluacion.dtos;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class SubmissionDTO {
     private String userId;
     private LocalDateTime submissionDate;

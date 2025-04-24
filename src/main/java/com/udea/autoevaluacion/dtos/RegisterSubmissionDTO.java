@@ -1,6 +1,5 @@
 package com.udea.autoevaluacion.dtos;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
@@ -18,5 +17,5 @@ public class RegisterSubmissionDTO {
     private String userId;
 
     @NotBlank(message = "Los datos del formulario no pueden ser vacíos")
-    private List<SubmissionPartDTO> submissionParts;
+    private List<RegisterSubmissionPartDTO> registerSubmissionParts;
 }
