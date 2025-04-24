@@ -17,8 +17,15 @@ public class SubmissionAnswer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "question_definition_id", nullable = false)
+    private QuestionDefinition questionDefinition;
+
     @Column(nullable = false)
-    private int questionNumber;
+    private int actualLevel;
+
+    @Column(nullable = false)
+    private int targetLevel;
 
     @ManyToOne
     @JoinColumn(name = "submission_part_id", nullable = false)

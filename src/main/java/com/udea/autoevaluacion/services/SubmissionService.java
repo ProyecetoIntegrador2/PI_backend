@@ -69,12 +69,12 @@ public class SubmissionService {
             List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO = registerSubmissionPartDTO.getRegisterSubmissionAnswers();
             List<SubmissionAnswer> submissionAnswers = registerSubmissionAnswersDTO.stream()
                             .map(answer -> SubmissionAnswer.builder()
-                            .questionNumber(answer.getQuestionNumber())
+                            .questionDefinition(null)
                             .submissionPart(submissionPart)
                             .build())
                             .collect(Collectors.toList());
             
-            submissionPart.setPartNumber(registerSubmissionPartDTO.getPartNumber());
+            submissionPart.setPartDefinition(null);
             submissionPart.setSubmission(submission);
             submissionPart.setSubmissionAnswers(submissionAnswers);
             submissionPart.setSubmissionMetrics(null);
