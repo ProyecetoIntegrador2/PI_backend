@@ -20,9 +20,6 @@ public class SubmissionAnswer {
     @Column(nullable = false)
     private int questionNumber;
 
-    @Column(nullable = false)
-    private String questionText;   
-
     @ManyToOne
     @JoinColumn(name = "submission_part_id", nullable = false)
     private SubmissionPart submissionPart;

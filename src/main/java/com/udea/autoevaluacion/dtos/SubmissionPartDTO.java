@@ -10,7 +10,6 @@ import lombok.Value;
 public class SubmissionPartDTO {
     private Long submissionId;
     private int partNumber;
-    private String partName;
     private List<SubmissionAnswerDTO> submissionAnswers;
     private SubmissionMetricsDTO submissionMetrics;
 }
