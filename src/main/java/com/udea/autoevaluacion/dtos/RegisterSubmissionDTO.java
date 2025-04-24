@@ -17,9 +17,6 @@ public class RegisterSubmissionDTO {
     @NotBlank(message = "El ID de usuario no puede ser vacío")
     private String userId;
 
-    @NotBlank(message = "La fecha de envío no puede ser vacía")
-    private LocalDateTime submissionDate;
-
     @NotBlank(message = "Los datos del formulario no pueden ser vacíos")
     private List<SubmissionPartDTO> submissionParts;
 }

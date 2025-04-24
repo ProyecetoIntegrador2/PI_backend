@@ -21,7 +21,14 @@ public class CompanyService {
     @Transactional(readOnly = true)
     public List<CompanyDTO> getAllCompanies() {
         return companyRepository.findAll().stream()
-                .map(company -> new CompanyDTO(company.getId(), company.getName(), company.getOrganizationType(), company.getOrganizationSector(), company.getCountry(), company.getNumberOfEmployees()))
+                .map(company -> CompanyDTO.builder()
+                        .id(company.getId())
+                        .name(company.getName())
+                        .organizationType(company.getOrganizationType())
+                        .organizationSector(company.getOrganizationSector())
+                        .country(company.getCountry())
+                        .numberOfEmployees(company.getNumberOfEmployees())
+                        .build())
                 .collect(Collectors.toList());
     }
 }
