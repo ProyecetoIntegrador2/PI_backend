@@ -8,7 +8,7 @@ import lombok.Value;
 @Value
 @Builder
 public class SubmissionPartDTO {
-    private String submissionId;
+    private Long submissionId;
     private int partNumber;
     private String partName;
     private List<SubmissionAnswerDTO> submissionAnswers;
