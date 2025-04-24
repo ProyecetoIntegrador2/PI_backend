@@ -28,14 +28,15 @@ public class LoginService {
             throw new Exception("Contraseña incorrecta");
         }
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setJobTitle(user.getJobTitle());
-        userDTO.setCompanyName(user.getCompany().getName());
-        userDTO.setYearsOfExperienceTechnology(user.getYearsOfExperienceTechnology());
+        UserDTO userDTO = UserDTO.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .jobTitle(user.getJobTitle())
+                .companyName(user.getCompany().getName())
+                .yearsOfExperienceTechnology(user.getYearsOfExperienceTechnology())
+                .build();
 
         return userDTO;
     }
