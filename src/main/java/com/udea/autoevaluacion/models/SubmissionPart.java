@@ -27,7 +27,7 @@ public class SubmissionPart {
     private Submission submission;
 
     @OneToMany(mappedBy = "submissionPart")
-    private List<SubmissionAnswer> submissionQuestions;
+    private List<SubmissionAnswer> submissionAnswers;
 
     @OneToOne(mappedBy = "submissionPart")
     private SubmissionMetrics submissionMetrics;
