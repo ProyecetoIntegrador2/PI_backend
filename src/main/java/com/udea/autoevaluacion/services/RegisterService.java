@@ -12,6 +12,8 @@ import com.udea.autoevaluacion.models.User;
 import com.udea.autoevaluacion.repositories.CompanyRepository;
 import com.udea.autoevaluacion.repositories.UserRepository;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class RegisterService {
 
@@ -25,6 +27,7 @@ public class RegisterService {
         this.companyRepository = companyRepository;
     }
 
+    @Transactional
     public UserDTO registerUser(RegisterUserDTO registerUserDTO) {;
         String encodedPassword = passwordEncoder.encode(registerUserDTO.getPassword());
 
@@ -53,6 +56,7 @@ public class RegisterService {
         return userDTO;
     }
 
+    @Transactional
     public CompanyDTO registerCompany(RegisterCompanyDTO registerCompanyDTO) {
         Company company = companyRepository.save(Company.builder()
                 .name(registerCompanyDTO.getName())

@@ -7,6 +7,8 @@ import com.udea.autoevaluacion.dtos.LoginDTO;
 import com.udea.autoevaluacion.dtos.UserDTO;
 import com.udea.autoevaluacion.models.User;
 import com.udea.autoevaluacion.repositories.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class LoginService {
     private final UserRepository userRepository;
@@ -17,6 +19,7 @@ public class LoginService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional(readOnly = true)
     public UserDTO login(LoginDTO loginDTO) throws Exception{
         User user = userRepository.findByEmail(loginDTO.getEmail())
                 .orElseThrow(() -> new Exception("Usuario no encontrado"));
