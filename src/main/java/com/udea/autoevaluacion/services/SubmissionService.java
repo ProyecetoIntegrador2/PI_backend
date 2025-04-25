@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.udea.autoevaluacion.dtos.RegisterSubmissionAnswerDTO;
@@ -19,7 +18,7 @@ import com.udea.autoevaluacion.models.SubmissionPart;
 import com.udea.autoevaluacion.models.User;
 import com.udea.autoevaluacion.repositories.FormDefinitionRepository;
 import com.udea.autoevaluacion.repositories.SubmissionAnswerRepository;
-import com.udea.autoevaluacion.repositories.SubmissionMetricsRepository;
+import com.udea.autoevaluacion.repositories.SubmissionPartMetricsRepository;
 import com.udea.autoevaluacion.repositories.SubmissionPartRepository;
 import com.udea.autoevaluacion.repositories.SubmissionRepository;
 import com.udea.autoevaluacion.repositories.UserRepository;
@@ -31,19 +30,19 @@ public class SubmissionService {
     private final SubmissionRepository submissionRepository;
     private final SubmissionPartRepository submissionPartRepository;
     private final SubmissionAnswerRepository submissionAnswerRepository;
-    private final SubmissionMetricsRepository submissionMetricsRepository;
+    private final SubmissionPartMetricsRepository submissionPartMetricsRepository;
     private final FormDefinitionRepository formDefinitionRepository;
     private final UserRepository userRepository;
 
     public SubmissionService(SubmissionRepository submissionRepository,
             SubmissionPartRepository submissionPartRepository,
             SubmissionAnswerRepository submissionAnswerRepository,
-            SubmissionMetricsRepository submissionMetricsRepository,
+            SubmissionPartMetricsRepository submissionPartMetricsRepository,
             UserRepository userRepository, FormDefinitionRepository formDefinitionRepository) {
         this.submissionRepository = submissionRepository;
         this.submissionPartRepository = submissionPartRepository;
         this.submissionAnswerRepository = submissionAnswerRepository;
-        this.submissionMetricsRepository = submissionMetricsRepository;
+        this.submissionPartMetricsRepository = submissionPartMetricsRepository;
         this.formDefinitionRepository = formDefinitionRepository;
         this.userRepository = userRepository;
     }
@@ -76,13 +75,15 @@ public class SubmissionService {
             submissionPart.setPartDefinition(null);
             submissionPart.setSubmission(submission);
             submissionPart.setSubmissionAnswers(submissionAnswers);
-            submissionPart.setSubmissionMetrics(null);
+            submissionPart.setSubmissionPartMetrics(null);
 
             submissionParts.add(submissionPart);
         }
         submission.setSubmissionParts(submissionParts);
         submission.setUser(user);
         submission.setFormDefinition(formDefinition);
+
+        submissionRepository.save(submission);
 
         return null;
     }

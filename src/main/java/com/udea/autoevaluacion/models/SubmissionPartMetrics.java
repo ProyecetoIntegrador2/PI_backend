@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "submission_metrics")
-public class SubmissionMetrics {
+public class SubmissionPartMetrics {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

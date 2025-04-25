@@ -23,7 +23,7 @@ public class Submission {
     @Column(nullable = false)
     private LocalDateTime submissionDate;
 
-    @OneToMany(mappedBy = "submission")
+    @OneToMany(mappedBy = "submission", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubmissionPart> submissionParts;
 
     @ManyToOne

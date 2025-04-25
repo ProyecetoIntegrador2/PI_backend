@@ -16,6 +16,6 @@ public interface SubmissionRepository extends JpaRepository<Submission, Long> {
     List<Submission> findByUser(User user);
 
     // Recupera toda la submission con sus partes, respuestas y metricas.
-    @Query("SELECT s FROM Submission s JOIN FETCH s.submissionParts sp JOIN FETCH sp.submissionAnswers sa JOIN FETCH sa.questionDefinition qd JOIN FETCH sp.partDefinition pd LEFT JOIN FETCH sp.submissionMetrics pm WHERE s.id = :id")
+    @Query("SELECT s FROM Submission s JOIN FETCH s.submissionParts sp JOIN FETCH sp.submissionAnswers sa JOIN FETCH sa.questionDefinition qd JOIN FETCH sp.partDefinition pd LEFT JOIN FETCH sp.submissionPartMetrics pm WHERE s.id = :id")
     Optional<Submission> findByIdWithDetails(@Param("id") Long id);
 }

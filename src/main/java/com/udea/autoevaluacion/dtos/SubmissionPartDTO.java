@@ -11,5 +11,5 @@ public class SubmissionPartDTO {
     private Long submissionId;
     private PartDefinitionDTO partDefinitionDTO;
     private List<SubmissionAnswerDTO> submissionAnswers;
-    private SubmissionMetricsDTO submissionMetrics;
+    private SubmissionPartMetricsDTO submissionPartMetrics;
 }

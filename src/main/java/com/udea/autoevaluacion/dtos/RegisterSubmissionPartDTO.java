@@ -20,5 +20,5 @@ public class RegisterSubmissionPartDTO {
     private List<RegisterSubmissionAnswerDTO> registerSubmissionAnswers;
 
     @NotBlank(message = "Las métricas no pueden estar vacías")
-    private RegisterSubmissionMetricsDTO registerSubmissionMetrics;
+    private RegisterSubmissionPartMetricsDTO registerSubmissionPartMetrics;
 }

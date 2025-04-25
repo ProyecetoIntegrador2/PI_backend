@@ -27,9 +27,9 @@ public class SubmissionPart {
     @JoinColumn(name = "submission_id", nullable = false)
     private Submission submission;
 
-    @OneToMany(mappedBy = "submissionPart")
+    @OneToMany(mappedBy = "submissionPart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubmissionAnswer> submissionAnswers;
 
-    @OneToOne(mappedBy = "submissionPart")
-    private SubmissionMetrics submissionMetrics;
+    @OneToOne(mappedBy = "submissionPart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private SubmissionPartMetrics submissionPartMetrics;
 }
