@@ -51,6 +51,7 @@ public class SubmissionService {
     @Transactional
     public SubmissionDTO createSubmission(RegisterSubmissionDTO registerSubmissionDTO) {
         Submission submission = new Submission();
+        submission.setSubmissionDate(LocalDateTime.now());
 
         User user = userRepository.findById(registerSubmissionDTO.getUserId())
         .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -58,8 +59,6 @@ public class SubmissionService {
         FormDefinition formDefinition = formDefinitionRepository
                 .findById(registerSubmissionDTO.getFormDefinitionId())
                 .orElseThrow(() -> new RuntimeException("Definicion del formulario no encontrada"));
-
-        LocalDateTime submissionDate = LocalDateTime.now();
 
         List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO = registerSubmissionDTO.getRegisterSubmissionParts();
         List<SubmissionPart> submissionParts = new ArrayList<>();
@@ -81,7 +80,6 @@ public class SubmissionService {
 
             submissionParts.add(submissionPart);
         }
-        submission.setSubmissionDate(submissionDate);
         submission.setSubmissionParts(submissionParts);
         submission.setUser(user);
         submission.setFormDefinition(formDefinition);
