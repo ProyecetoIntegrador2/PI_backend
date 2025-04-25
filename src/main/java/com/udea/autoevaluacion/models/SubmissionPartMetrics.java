@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "submission_metrics")
+@Table(name = "submission_part_metrics")
 public class SubmissionPartMetrics {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
