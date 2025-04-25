@@ -18,7 +18,4 @@ public class RegisterSubmissionPartDTO {
 
     @NotBlank(message = "Las preguntas de la parte no pueden estar vacias")
     private List<RegisterSubmissionAnswerDTO> registerSubmissionAnswers;
-
-    @NotBlank(message = "Las métricas no pueden estar vacías")
-    private RegisterSubmissionPartMetricsDTO registerSubmissionPartMetrics;
 }

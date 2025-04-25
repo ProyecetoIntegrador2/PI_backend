@@ -12,6 +12,8 @@ import com.udea.autoevaluacion.dtos.RegisterSubmissionDTO;
 import com.udea.autoevaluacion.dtos.RegisterSubmissionPartDTO;
 import com.udea.autoevaluacion.dtos.SubmissionDTO;
 import com.udea.autoevaluacion.models.FormDefinition;
+import com.udea.autoevaluacion.models.PartDefinition;
+import com.udea.autoevaluacion.models.QuestionDefinition;
 import com.udea.autoevaluacion.models.Submission;
 import com.udea.autoevaluacion.models.SubmissionAnswer;
 import com.udea.autoevaluacion.models.SubmissionPart;
@@ -61,24 +63,43 @@ public class SubmissionService {
 
         List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO = registerSubmissionDTO.getRegisterSubmissionParts();
         List<SubmissionPart> submissionParts = new ArrayList<>();
+        List<PartDefinition> partDefinitions = formDefinition.getPartDefinitions();
+        
         for (RegisterSubmissionPartDTO registerSubmissionPartDTO : registerSubmissionPartsDTO) {
             SubmissionPart submissionPart = new SubmissionPart();
+            
+            int partNumber = registerSubmissionPartDTO.getPartNumber();
+            PartDefinition partDefinition = partDefinitions.stream()
+                    .filter(part -> part.getPartNumber() == partNumber)
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Parte del formulario no encontrada"));
 
             List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO = registerSubmissionPartDTO.getRegisterSubmissionAnswers();
             List<SubmissionAnswer> submissionAnswers = registerSubmissionAnswersDTO.stream()
-                            .map(answer -> SubmissionAnswer.builder()
-                            .questionDefinition(null)
-                            .submissionPart(submissionPart)
-                            .build())
+                            .map(answer -> {
+                                SubmissionAnswer submissionAnswer = new SubmissionAnswer();
+                                QuestionDefinition questionDefinition = partDefinition.getQuestionDefinitions().stream()
+                                        .filter(question -> question.getQuestionNumber() == answer.getQuestionNumber())
+                                        .findFirst()
+                                        .orElseThrow(() -> new RuntimeException("Definicion de la pregunta no encontrada"));
+                                
+                                submissionAnswer.setQuestionDefinition(questionDefinition);
+                                submissionAnswer.setActualLevel(answer.getActualLevel());
+                                submissionAnswer.setTargetLevel(answer.getTargetLevel());
+                                submissionAnswer.setSubmissionPart(submissionPart);
+                                
+                                return submissionAnswer;
+                            })
                             .collect(Collectors.toList());
             
-            submissionPart.setPartDefinition(null);
+            submissionPart.setPartDefinition(partDefinition);
             submissionPart.setSubmission(submission);
             submissionPart.setSubmissionAnswers(submissionAnswers);
             submissionPart.setSubmissionPartMetrics(null);
 
             submissionParts.add(submissionPart);
         }
+        submission.setFormDefinition(formDefinition);
         submission.setSubmissionParts(submissionParts);
         submission.setUser(user);
         submission.setFormDefinition(formDefinition);
