@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterSubmissionMetricsDTO {
+public class RegisterSubmissionPartMetricsDTO {
     @NotBlank(message = "El ID de la parte del formulario no puede ser vacío")
     private String registerSubmissionPartId;
 

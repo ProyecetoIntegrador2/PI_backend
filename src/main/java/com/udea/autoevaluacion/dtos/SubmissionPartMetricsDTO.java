@@ -7,7 +7,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class SubmissionMetricsDTO {
+public class SubmissionPartMetricsDTO {
     private Long submissionPartId;
     private int averageActualScore;
     private int averageDesiredScore;
