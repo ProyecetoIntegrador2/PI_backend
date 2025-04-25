@@ -17,6 +17,7 @@ import com.udea.autoevaluacion.models.QuestionDefinition;
 import com.udea.autoevaluacion.models.Submission;
 import com.udea.autoevaluacion.models.SubmissionAnswer;
 import com.udea.autoevaluacion.models.SubmissionPart;
+import com.udea.autoevaluacion.models.SubmissionPartMetrics;
 import com.udea.autoevaluacion.models.User;
 import com.udea.autoevaluacion.repositories.FormDefinitionRepository;
 import com.udea.autoevaluacion.repositories.SubmissionAnswerRepository;
@@ -35,18 +36,20 @@ public class SubmissionService {
     private final SubmissionPartMetricsRepository submissionPartMetricsRepository;
     private final FormDefinitionRepository formDefinitionRepository;
     private final UserRepository userRepository;
+    private final MetricsService metricsService;
 
     public SubmissionService(SubmissionRepository submissionRepository,
             SubmissionPartRepository submissionPartRepository,
             SubmissionAnswerRepository submissionAnswerRepository,
             SubmissionPartMetricsRepository submissionPartMetricsRepository,
-            UserRepository userRepository, FormDefinitionRepository formDefinitionRepository) {
+            UserRepository userRepository, FormDefinitionRepository formDefinitionRepository, MetricsService metricsService) {
         this.submissionRepository = submissionRepository;
         this.submissionPartRepository = submissionPartRepository;
         this.submissionAnswerRepository = submissionAnswerRepository;
         this.submissionPartMetricsRepository = submissionPartMetricsRepository;
         this.formDefinitionRepository = formDefinitionRepository;
         this.userRepository = userRepository;
+        this.metricsService = metricsService;
     }
 
     @Transactional
@@ -65,6 +68,19 @@ public class SubmissionService {
         List<SubmissionPart> submissionParts = new ArrayList<>();
         List<PartDefinition> partDefinitions = formDefinition.getPartDefinitions();
         
+        createSubmissionParts(submission, registerSubmissionPartsDTO, submissionParts, partDefinitions);
+
+        submission.setFormDefinition(formDefinition);
+        submission.setSubmissionParts(submissionParts);
+        submission.setUser(user);
+        submission.setFormDefinition(formDefinition);
+
+        submissionRepository.save(submission);
+
+        return null;
+    }
+
+    private void createSubmissionParts(Submission submission, List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO, List<SubmissionPart> submissionParts, List<PartDefinition> partDefinitions) {
         for (RegisterSubmissionPartDTO registerSubmissionPartDTO : registerSubmissionPartsDTO) {
             SubmissionPart submissionPart = new SubmissionPart();
             
@@ -75,37 +91,54 @@ public class SubmissionService {
                     .orElseThrow(() -> new RuntimeException("Parte del formulario no encontrada"));
 
             List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO = registerSubmissionPartDTO.getRegisterSubmissionAnswers();
-            List<SubmissionAnswer> submissionAnswers = registerSubmissionAnswersDTO.stream()
-                            .map(answer -> {
-                                SubmissionAnswer submissionAnswer = new SubmissionAnswer();
-                                QuestionDefinition questionDefinition = partDefinition.getQuestionDefinitions().stream()
-                                        .filter(question -> question.getQuestionNumber() == answer.getQuestionNumber())
-                                        .findFirst()
-                                        .orElseThrow(() -> new RuntimeException("Definicion de la pregunta no encontrada"));
-                                
-                                submissionAnswer.setQuestionDefinition(questionDefinition);
-                                submissionAnswer.setActualLevel(answer.getActualLevel());
-                                submissionAnswer.setTargetLevel(answer.getTargetLevel());
-                                submissionAnswer.setSubmissionPart(submissionPart);
-                                
-                                return submissionAnswer;
-                            })
-                            .collect(Collectors.toList());
+            List<SubmissionAnswer> submissionAnswers = createSubmissionAnswers(submissionPart, partDefinition, registerSubmissionAnswersDTO);
+
+            SubmissionPartMetrics submissionPartMetrics = calculateSubmissionPartMetrics(submissionAnswers);
             
             submissionPart.setPartDefinition(partDefinition);
             submissionPart.setSubmission(submission);
             submissionPart.setSubmissionAnswers(submissionAnswers);
-            submissionPart.setSubmissionPartMetrics(null);
+            submissionPart.setSubmissionPartMetrics(submissionPartMetrics);
 
             submissionParts.add(submissionPart);
         }
-        submission.setFormDefinition(formDefinition);
-        submission.setSubmissionParts(submissionParts);
-        submission.setUser(user);
-        submission.setFormDefinition(formDefinition);
+    }
 
-        submissionRepository.save(submission);
+    private SubmissionPartMetrics calculateSubmissionPartMetrics(List<SubmissionAnswer> submissionAnswers) {
+        int totalDesired = submissionAnswers.stream()
+                .mapToInt(SubmissionAnswer::getTargetLevel)
+                .sum();
+        int totalActual = submissionAnswers.stream()
+                .mapToInt(SubmissionAnswer::getActualLevel)
+                .sum();
+        
+        int averageActualScore = metricsService.calculateAverageActualScore(totalActual, submissionAnswers.size());
+        int averageDesiredScore = metricsService.calculateAverageDesiredScore(totalDesired, submissionAnswers.size());
 
-        return null;
+        SubmissionPartMetrics submissionPartMetrics = new SubmissionPartMetrics();
+        submissionPartMetrics.setAverageActualScore(averageActualScore);
+        submissionPartMetrics.setAverageDesiredScore(averageDesiredScore);
+        
+        return submissionPartMetrics;
+    }
+
+    private List<SubmissionAnswer> createSubmissionAnswers(SubmissionPart submissionPart, PartDefinition partDefinition, List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO) {
+        List<SubmissionAnswer> submissionAnswers = registerSubmissionAnswersDTO.stream()
+                        .map(answer -> {
+                            SubmissionAnswer submissionAnswer = new SubmissionAnswer();
+                            QuestionDefinition questionDefinition = partDefinition.getQuestionDefinitions().stream()
+                                    .filter(question -> question.getQuestionNumber() == answer.getQuestionNumber())
+                                    .findFirst()
+                                    .orElseThrow(() -> new RuntimeException("Definicion de la pregunta no encontrada"));
+                            
+                            submissionAnswer.setQuestionDefinition(questionDefinition);
+                            submissionAnswer.setActualLevel(answer.getActualLevel());
+                            submissionAnswer.setTargetLevel(answer.getTargetLevel());
+                            submissionAnswer.setSubmissionPart(submissionPart);
+                            
+                            return submissionAnswer;
+                        })
+                        .collect(Collectors.toList());
+        return submissionAnswers;
     }
 }

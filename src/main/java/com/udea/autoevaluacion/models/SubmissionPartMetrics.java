@@ -23,10 +23,10 @@ public class SubmissionPartMetrics {
     @JoinColumn(name = "submission_part_id", nullable = false)
     private SubmissionPart submissionPart;
 
-    @Column(nullable = false)
+    @Column(name = "average_actual_score")
     private int averageActualScore;
 
-    @Column(nullable = false)
+    @Column(name = "average_desired_score")
     private int averageDesiredScore;
 
     //Criterio de mayoría calificada
