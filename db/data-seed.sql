@@ -1,4 +1,4 @@
-INSERT INTO public.form_definitions (id,"name","version") VALUES
+INSERT INTO public.form_definitions (id,form_name,form_version) VALUES
 	 (1,'Autoevaluacion','1.0');
 INSERT INTO public.part_definitions (id,part_name,part_number,form_definition_id) VALUES
 	 (1,'Estrategia de TI',1,1);

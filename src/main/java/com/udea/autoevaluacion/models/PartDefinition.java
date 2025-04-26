@@ -2,6 +2,9 @@ package com.udea.autoevaluacion.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,11 +30,10 @@ public class PartDefinition {
 
     @ManyToOne
     @JoinColumn(name = "form_definition_id", nullable = false)
+    @JsonBackReference(value = "formDefinition")
     private FormDefinition formDefinition;
 
     @OneToMany(mappedBy = "partDefinition")
+    @JsonManagedReference(value = "partDefinition")
     private List<QuestionDefinition> questionDefinitions;
-
-    @OneToMany(mappedBy = "partDefinition")
-    private List<SubmissionPart> submissionParts;
 }

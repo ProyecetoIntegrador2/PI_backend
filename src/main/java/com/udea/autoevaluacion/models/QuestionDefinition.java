@@ -1,6 +1,6 @@
 package com.udea.autoevaluacion.models;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,8 +27,6 @@ public class QuestionDefinition {
 
     @ManyToOne
     @JoinColumn(name = "part_definition_id", nullable = false)
+    @JsonBackReference(value = "partDefinition")
     private PartDefinition partDefinition;
-
-    @OneToMany(mappedBy = "questionDefinition")
-    private List<SubmissionAnswer> submissionAnswers;
 }
