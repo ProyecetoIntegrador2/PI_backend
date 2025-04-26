@@ -10,6 +10,7 @@ public class EndpointsConstants {
     public static final String PROFILE_URL = "/profile";
 
     public static final String SUBMISSION_URL = "/submission";
+    public static final String FORM_DEFINITION_URL = "/form-definition";
 
     // URLs de contraseña y verificacion
     public static final String FORGOT_PASSWORD_URL = "/forgot-password";

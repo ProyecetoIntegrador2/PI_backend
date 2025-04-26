@@ -10,8 +10,8 @@ import com.udea.autoevaluacion.models.*;
 public interface SubmissionMapper {
 
     @Mapping(target = "userId", source = "user.id")
-    @Mapping(target = "formName", source = "formDefinition.name")
-    @Mapping(target = "formVersion", source = "formDefinition.version")
+    @Mapping(target = "formName", source = "formDefinition.formName")
+    @Mapping(target = "formVersion", source = "formDefinition.formVersion")
     SubmissionDTO toSubmissionDTO(Submission submission);
 
     @Mapping(target = "partNumber" , source = "partDefinition.partNumber")

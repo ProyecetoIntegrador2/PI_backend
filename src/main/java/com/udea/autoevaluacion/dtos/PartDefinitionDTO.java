@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PartDefinitionDTO {
+    private Long id;
     private int partNumber;
     private String partName;
     private List<QuestionDefinitionDTO> questionDefinitions;

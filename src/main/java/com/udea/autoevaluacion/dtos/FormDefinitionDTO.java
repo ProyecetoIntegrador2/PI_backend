@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FormDefinitionDTO {
-    private String name;
-    private String version;
+    private Long id;
+    private String formName;
+    private String formVersion;
     private List<PartDefinitionDTO> partDefinitions;
 }
