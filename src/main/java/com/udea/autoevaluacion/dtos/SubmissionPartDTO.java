@@ -8,8 +8,8 @@ import lombok.Value;
 @Value
 @Builder
 public class SubmissionPartDTO {
-    private Long submissionId;
-    private PartDefinitionDTO partDefinitionDTO;
+    private String partNumber;
+    private String partName;
     private List<SubmissionAnswerDTO> submissionAnswers;
     private SubmissionPartMetricsDTO submissionPartMetrics;
 }

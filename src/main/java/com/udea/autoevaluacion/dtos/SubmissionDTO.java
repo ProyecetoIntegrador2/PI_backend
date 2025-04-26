@@ -10,7 +10,8 @@ import lombok.Value;
 @Builder
 public class SubmissionDTO {
     private Long userId;
-    private Long formDefinitionId;
+    private String name;
+    private String version;
     private LocalDateTime submissionDate;
     private List<SubmissionPartDTO> submissionParts;
 }
