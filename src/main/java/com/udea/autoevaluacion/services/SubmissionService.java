@@ -11,6 +11,7 @@ import com.udea.autoevaluacion.dtos.RegisterSubmissionAnswerDTO;
 import com.udea.autoevaluacion.dtos.RegisterSubmissionDTO;
 import com.udea.autoevaluacion.dtos.RegisterSubmissionPartDTO;
 import com.udea.autoevaluacion.dtos.SubmissionDTO;
+import com.udea.autoevaluacion.mappers.SubmissionMapper;
 import com.udea.autoevaluacion.models.FormDefinition;
 import com.udea.autoevaluacion.models.PartDefinition;
 import com.udea.autoevaluacion.models.QuestionDefinition;
@@ -37,12 +38,13 @@ public class SubmissionService {
     private final FormDefinitionRepository formDefinitionRepository;
     private final UserRepository userRepository;
     private final MetricsService metricsService;
+    private final SubmissionMapper submissionMapper;
 
     public SubmissionService(SubmissionRepository submissionRepository,
             SubmissionPartRepository submissionPartRepository,
             SubmissionAnswerRepository submissionAnswerRepository,
             SubmissionPartMetricsRepository submissionPartMetricsRepository,
-            UserRepository userRepository, FormDefinitionRepository formDefinitionRepository, MetricsService metricsService) {
+            UserRepository userRepository, FormDefinitionRepository formDefinitionRepository, MetricsService metricsService, SubmissionMapper submissionMapper) {
         this.submissionRepository = submissionRepository;
         this.submissionPartRepository = submissionPartRepository;
         this.submissionAnswerRepository = submissionAnswerRepository;
@@ -50,6 +52,7 @@ public class SubmissionService {
         this.formDefinitionRepository = formDefinitionRepository;
         this.userRepository = userRepository;
         this.metricsService = metricsService;
+        this.submissionMapper = submissionMapper;
     }
 
     @Transactional
@@ -76,8 +79,9 @@ public class SubmissionService {
         submission.setFormDefinition(formDefinition);
 
         submissionRepository.save(submission);
+        SubmissionDTO submissionDTO = submissionMapper.toSubmissionDTO(submission);
 
-        return null;
+        return submissionDTO;
     }
 
     private void createSubmissionParts(Submission submission, List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO, List<SubmissionPart> submissionParts, List<PartDefinition> partDefinitions) {
