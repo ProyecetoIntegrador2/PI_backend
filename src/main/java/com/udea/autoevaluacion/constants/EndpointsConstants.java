@@ -9,6 +9,8 @@ public class EndpointsConstants {
     public static final String LOGOUT_URL = "/logout";
     public static final String PROFILE_URL = "/profile";
 
+    public static final String SUBMISSION_URL = "/submission";
+
     // URLs de contraseña y verificacion
     public static final String FORGOT_PASSWORD_URL = "/forgot-password";
     public static final String RESET_PASSWORD_URL = "/reset-password";
