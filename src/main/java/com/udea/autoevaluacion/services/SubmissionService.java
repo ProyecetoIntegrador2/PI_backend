@@ -97,7 +97,7 @@ public class SubmissionService {
             List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO = registerSubmissionPartDTO.getRegisterSubmissionAnswers();
             List<SubmissionAnswer> submissionAnswers = createSubmissionAnswers(submissionPart, partDefinition, registerSubmissionAnswersDTO);
 
-            SubmissionPartMetrics submissionPartMetrics = calculateSubmissionPartMetrics(submissionAnswers);
+            SubmissionPartMetrics submissionPartMetrics = calculateSubmissionPartMetrics(submissionAnswers, submissionPart);
             
             submissionPart.setPartDefinition(partDefinition);
             submissionPart.setSubmission(submission);
@@ -108,7 +108,7 @@ public class SubmissionService {
         }
     }
 
-    private SubmissionPartMetrics calculateSubmissionPartMetrics(List<SubmissionAnswer> submissionAnswers) {
+    private SubmissionPartMetrics calculateSubmissionPartMetrics(List<SubmissionAnswer> submissionAnswers, SubmissionPart submissionPart) {
         int totalDesired = submissionAnswers.stream()
                 .mapToInt(SubmissionAnswer::getTargetLevel)
                 .sum();
@@ -120,6 +120,7 @@ public class SubmissionService {
         int averageDesiredScore = metricsService.calculateAverageDesiredScore(totalDesired, submissionAnswers.size());
 
         SubmissionPartMetrics submissionPartMetrics = new SubmissionPartMetrics();
+        submissionPartMetrics.setSubmissionPart(submissionPart);
         submissionPartMetrics.setAverageActualScore(averageActualScore);
         submissionPartMetrics.setAverageDesiredScore(averageDesiredScore);
         
