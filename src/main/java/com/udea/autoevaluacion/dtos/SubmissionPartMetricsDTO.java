@@ -8,7 +8,6 @@ import lombok.Value;
 @Value
 @Builder
 public class SubmissionPartMetricsDTO {
-    private Long submissionPartId;
     private int averageActualScore;
     private int averageDesiredScore;
     private BigDecimal qualifiedMajorityCriterion;

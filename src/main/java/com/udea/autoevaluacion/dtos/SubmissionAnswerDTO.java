@@ -7,7 +7,7 @@ import lombok.Value;
 @Builder
 public class SubmissionAnswerDTO {
     private String questionNumber;
-    private String questionName;
+    private String questionText;
     private int actualLevel;
     private int targetLevel;
 }
