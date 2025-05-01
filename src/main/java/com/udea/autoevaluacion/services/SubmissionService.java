@@ -187,4 +187,10 @@ public class SubmissionService {
         
         return submissionMetrics;
     }
+
+    @Transactional
+    public List<SubmissionDTO> getSubmissionsByUserId(Long userId) {
+        List<Submission> submissions = submissionRepository.findAllByUser_Id(userId);
+        return submissionMapper.toSubmissionDTOs(submissions);
+    }
 }

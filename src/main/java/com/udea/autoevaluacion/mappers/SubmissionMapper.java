@@ -1,5 +1,7 @@
 package com.udea.autoevaluacion.mappers;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -29,4 +31,6 @@ public interface SubmissionMapper {
     SubmissionAnswerDTO toSubmissionAnswerDTO(SubmissionAnswer submissionAnswer);
 
     SubmissionPartMetricsDTO toSubmissionPartMetricsDTO(SubmissionPartMetrics submissionPartMetrics);
+
+    List<SubmissionDTO> toSubmissionDTOs(List<Submission> submissions);
 }
