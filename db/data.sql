@@ -192,7 +192,7 @@ INSERT INTO public.answer_option_definitions (id,description,option_level,questi
 	 (20,'Máxima eficiencia y efectividad, liderando la transformación digital.',5,4);
 INSERT INTO public.answer_option_definitions (id,description,option_level,question_definition_id) VALUES
 	 (21,'No se contempla una visión a largo plazo.',1,5),
-	 (22,'Visión a corto plazo, centrada en resolver problemas operativos.',1,5),
-	 (23,'Visión de mediano plazo, con objetivos claros.',1,5),
-	 (24,'Visión estratégica integrada con los planes empresariales.',1,5),
-	 (25,'Visionaria y transformadora, con TI como eje central del desarrollo empresarial.',1,5);
+	 (22,'Visión a corto plazo, centrada en resolver problemas operativos.',2,5),
+	 (23,'Visión de mediano plazo, con objetivos claros.',3,5),
+	 (24,'Visión estratégica integrada con los planes empresariales.',4,5),
+	 (25,'Visionaria y transformadora, con TI como eje central del desarrollo empresarial.',5,5);

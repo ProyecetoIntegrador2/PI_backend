@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "answer_option_definitions")
-public class AnswerOption {
+public class AnswerOptionDefinition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_definition_id", nullable = false)
     @JsonBackReference(value = "questionDefinition")
     private QuestionDefinition questionDefinition;

@@ -2,6 +2,7 @@ package com.udea.autoevaluacion.models;
 
 import java.util.List;
 
+import org.hibernate.annotations.BatchSize;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -27,7 +28,8 @@ public class FormDefinition {
     @Column(nullable = false)
     private String formVersion;
 
-    @OneToMany(mappedBy = "formDefinition")
+    @OneToMany(mappedBy = "formDefinition", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @BatchSize(size = 15)
     @JsonManagedReference(value = "formDefinition")
     private List<PartDefinition> partDefinitions;
 }
