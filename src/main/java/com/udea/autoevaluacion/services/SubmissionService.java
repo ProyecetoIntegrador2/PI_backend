@@ -12,6 +12,7 @@ import com.udea.autoevaluacion.dtos.RegisterSubmissionDTO;
 import com.udea.autoevaluacion.dtos.RegisterSubmissionPartDTO;
 import com.udea.autoevaluacion.dtos.SubmissionDTO;
 import com.udea.autoevaluacion.mappers.SubmissionMapper;
+import com.udea.autoevaluacion.models.AnswerOptionDefinition;
 import com.udea.autoevaluacion.models.FormDefinition;
 import com.udea.autoevaluacion.models.PartDefinition;
 import com.udea.autoevaluacion.models.QuestionDefinition;
@@ -115,10 +116,10 @@ public class SubmissionService {
 
     private SubmissionPartMetrics calculateSubmissionPartMetrics(List<SubmissionAnswer> submissionAnswers, SubmissionPart submissionPart) {
         int totalDesired = submissionAnswers.stream()
-                .mapToInt(SubmissionAnswer::getTargetLevel)
+                .mapToInt(submissionAnswer -> submissionAnswer.getTargetOption().getOptionLevel())
                 .sum();
         int totalActual = submissionAnswers.stream()
-                .mapToInt(SubmissionAnswer::getActualLevel)
+                .mapToInt(submissionAnswer -> submissionAnswer.getActualOption().getOptionLevel())
                 .sum();
         
         int averageActualScore = metricsService.calculateAverageActualScore(totalActual, submissionAnswers.size());
@@ -141,9 +142,19 @@ public class SubmissionService {
                                     .findFirst()
                                     .orElseThrow(() -> new RuntimeException("Definicion de la pregunta no encontrada"));
                             
+                            AnswerOptionDefinition actualOption = questionDefinition.getAnswerOptions().stream()
+                                    .filter(option -> option.getOptionLevel() == answer.getActualLevel())
+                                    .findFirst()
+                                    .orElseThrow(() -> new RuntimeException("Opcion de respuesta no encontrada"));
+                            
+                            AnswerOptionDefinition desiredOption = questionDefinition.getAnswerOptions().stream()
+                                    .filter(option -> option.getOptionLevel() == answer.getTargetLevel())
+                                    .findFirst()
+                                    .orElseThrow(() -> new RuntimeException("Opcion de respuesta no encontrada"));
+
                             submissionAnswer.setQuestionDefinition(questionDefinition);
-                            submissionAnswer.setActualLevel(answer.getActualLevel());
-                            submissionAnswer.setTargetLevel(answer.getTargetLevel());
+                            submissionAnswer.setActualOption(actualOption);
+                            submissionAnswer.setTargetOption(desiredOption);
                             submissionAnswer.setSubmissionPart(submissionPart);
                             
                             return submissionAnswer;
@@ -156,11 +167,11 @@ public class SubmissionService {
         SubmissionMetrics submissionMetrics = new SubmissionMetrics();
         int totalDesired = submissionParts.stream()
                 .flatMap(part -> part.getSubmissionAnswers().stream())
-                .mapToInt(SubmissionAnswer::getTargetLevel)
+                .mapToInt(submissionAnswer -> submissionAnswer.getTargetOption().getOptionLevel())
                 .sum();
         int totalActual = submissionParts.stream()
                 .flatMap(part -> part.getSubmissionAnswers().stream())
-                .mapToInt(SubmissionAnswer::getActualLevel)
+                .mapToInt(submissionAnswer -> submissionAnswer.getActualOption().getOptionLevel())
                 .sum();
         
         int totalCountQuestions = submissionParts.stream()

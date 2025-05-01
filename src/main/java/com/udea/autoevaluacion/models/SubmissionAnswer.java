@@ -17,15 +17,17 @@ public class SubmissionAnswer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_definition_id", nullable = false)
     private QuestionDefinition questionDefinition;
 
-    @Column(nullable = false)
-    private int actualLevel;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "actual_option_id", nullable = false)
+    private AnswerOptionDefinition actualOption;
 
-    @Column(nullable = false)
-    private int targetLevel;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "target_option_id", nullable = false)
+    private AnswerOptionDefinition targetOption;
 
     @ManyToOne
     @JoinColumn(name = "submission_part_id", nullable = false)

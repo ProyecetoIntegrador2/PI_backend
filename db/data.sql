@@ -83,6 +83,22 @@ CREATE TABLE public.users (
 );
 
 
+-- public.answer_option_definitions definition
+
+-- Drop table
+
+-- DROP TABLE public.answer_option_definitions;
+
+CREATE TABLE public.answer_option_definitions (
+	id bigserial NOT NULL,
+	description varchar(255) NOT NULL,
+	option_level int4 NOT NULL,
+	question_definition_id int8 NOT NULL,
+	CONSTRAINT answer_option_definitions_pkey PRIMARY KEY (id),
+	CONSTRAINT fkevb5akm2o8b3xd8epl5xike2p FOREIGN KEY (question_definition_id) REFERENCES public.question_definitions(id)
+);
+
+
 -- public.submissions definition
 
 -- Drop table
@@ -97,6 +113,26 @@ CREATE TABLE public.submissions (
 	CONSTRAINT submissions_pkey PRIMARY KEY (id),
 	CONSTRAINT fk43fsjocacl2w4e92sm5o0agh9 FOREIGN KEY (form_definition_id) REFERENCES public.form_definitions(id),
 	CONSTRAINT fk760bgu69957phd7hax608jdms FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+
+
+-- public.submission_metrics definition
+
+-- Drop table
+
+-- DROP TABLE public.submission_metrics;
+
+CREATE TABLE public.submission_metrics (
+	id bigserial NOT NULL,
+	average_actual_score int4 NULL,
+	average_desired_score int4 NULL,
+	majority_cut_off_level int4 NULL,
+	qualified_majority_criterion numeric(38, 2) NULL,
+	threshold_based_scoring numeric(38, 2) NULL,
+	submission_id int8 NOT NULL,
+	CONSTRAINT submission_metrics_pkey PRIMARY KEY (id),
+	CONSTRAINT uk_q5k38g9prtkcj3rl60sab5tbr UNIQUE (submission_id),
+	CONSTRAINT fkth0lwvk1l4pooay0scy65fkt7 FOREIGN KEY (submission_id) REFERENCES public.submissions(id)
 );
 
 
@@ -124,13 +160,15 @@ CREATE TABLE public.submission_parts (
 
 CREATE TABLE public.submission_questions (
 	id bigserial NOT NULL,
-	actual_level int4 NOT NULL,
-	target_level int4 NOT NULL,
+	actual_option_id int8 NOT NULL,
 	question_definition_id int8 NOT NULL,
 	submission_part_id int8 NOT NULL,
+	target_option_id int8 NOT NULL,
 	CONSTRAINT submission_questions_pkey PRIMARY KEY (id),
+	CONSTRAINT fkbgxr14f9ebiwuwd2bnf9i028d FOREIGN KEY (target_option_id) REFERENCES public.answer_option_definitions(id),
 	CONSTRAINT fkbsgseq3rxlx9fy04wuaj7j0n0 FOREIGN KEY (question_definition_id) REFERENCES public.question_definitions(id),
-	CONSTRAINT fkhquq37i4ej0ltbwumpuxjed4h FOREIGN KEY (submission_part_id) REFERENCES public.submission_parts(id)
+	CONSTRAINT fkhquq37i4ej0ltbwumpuxjed4h FOREIGN KEY (submission_part_id) REFERENCES public.submission_parts(id),
+	CONSTRAINT fkiie0t42ox9h27pei5q8xt825g FOREIGN KEY (actual_option_id) REFERENCES public.answer_option_definitions(id)
 );
 
 
