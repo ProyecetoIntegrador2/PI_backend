@@ -17,6 +17,7 @@ import com.udea.autoevaluacion.models.PartDefinition;
 import com.udea.autoevaluacion.models.QuestionDefinition;
 import com.udea.autoevaluacion.models.Submission;
 import com.udea.autoevaluacion.models.SubmissionAnswer;
+import com.udea.autoevaluacion.models.SubmissionMetrics;
 import com.udea.autoevaluacion.models.SubmissionPart;
 import com.udea.autoevaluacion.models.SubmissionPartMetrics;
 import com.udea.autoevaluacion.models.User;
@@ -68,15 +69,17 @@ public class SubmissionService {
                 .orElseThrow(() -> new RuntimeException("Definicion del formulario no encontrada"));
 
         List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO = registerSubmissionDTO.getRegisterSubmissionParts();
-        List<SubmissionPart> submissionParts = new ArrayList<>();
         List<PartDefinition> partDefinitions = formDefinition.getPartDefinitions();
         
-        createSubmissionParts(submission, registerSubmissionPartsDTO, submissionParts, partDefinitions);
+        List<SubmissionPart> submissionParts = createSubmissionParts(submission, registerSubmissionPartsDTO, partDefinitions);
 
         submission.setFormDefinition(formDefinition);
         submission.setSubmissionParts(submissionParts);
         submission.setUser(user);
         submission.setFormDefinition(formDefinition);
+
+        SubmissionMetrics submissionMetrics = calculateSubmissionMetrics(submission, submissionParts);
+        submission.setSubmissionMetrics(submissionMetrics);
 
         submissionRepository.save(submission);
         SubmissionDTO submissionDTO = submissionMapper.toSubmissionDTO(submission);
@@ -84,7 +87,8 @@ public class SubmissionService {
         return submissionDTO;
     }
 
-    private void createSubmissionParts(Submission submission, List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO, List<SubmissionPart> submissionParts, List<PartDefinition> partDefinitions) {
+    private List<SubmissionPart> createSubmissionParts(Submission submission, List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO, List<PartDefinition> partDefinitions) {
+        List<SubmissionPart> submissionParts = new ArrayList<>();
         for (RegisterSubmissionPartDTO registerSubmissionPartDTO : registerSubmissionPartsDTO) {
             SubmissionPart submissionPart = new SubmissionPart();
             
@@ -98,7 +102,7 @@ public class SubmissionService {
             List<SubmissionAnswer> submissionAnswers = createSubmissionAnswers(submissionPart, partDefinition, registerSubmissionAnswersDTO);
 
             SubmissionPartMetrics submissionPartMetrics = calculateSubmissionPartMetrics(submissionAnswers, submissionPart);
-            
+                
             submissionPart.setPartDefinition(partDefinition);
             submissionPart.setSubmission(submission);
             submissionPart.setSubmissionAnswers(submissionAnswers);
@@ -106,6 +110,7 @@ public class SubmissionService {
 
             submissionParts.add(submissionPart);
         }
+        return submissionParts;
     }
 
     private SubmissionPartMetrics calculateSubmissionPartMetrics(List<SubmissionAnswer> submissionAnswers, SubmissionPart submissionPart) {
@@ -145,5 +150,30 @@ public class SubmissionService {
                         })
                         .collect(Collectors.toList());
         return submissionAnswers;
+    }
+
+    public SubmissionMetrics calculateSubmissionMetrics(Submission submission, List<SubmissionPart> submissionParts) {
+        SubmissionMetrics submissionMetrics = new SubmissionMetrics();
+        int totalDesired = submissionParts.stream()
+                .flatMap(part -> part.getSubmissionAnswers().stream())
+                .mapToInt(SubmissionAnswer::getTargetLevel)
+                .sum();
+        int totalActual = submissionParts.stream()
+                .flatMap(part -> part.getSubmissionAnswers().stream())
+                .mapToInt(SubmissionAnswer::getActualLevel)
+                .sum();
+        
+        int totalCountQuestions = submissionParts.stream()
+                .mapToInt(part -> part.getSubmissionAnswers().size())
+                .sum();
+
+        int averageActualScore = metricsService.calculateAverageActualScore(totalActual, totalCountQuestions);
+        int averageDesiredScore = metricsService.calculateAverageDesiredScore(totalDesired, totalCountQuestions);
+
+        submissionMetrics.setSubmission(submission);
+        submissionMetrics.setAverageActualScore(averageActualScore);
+        submissionMetrics.setAverageDesiredScore(averageDesiredScore);
+        
+        return submissionMetrics;
     }
 }
