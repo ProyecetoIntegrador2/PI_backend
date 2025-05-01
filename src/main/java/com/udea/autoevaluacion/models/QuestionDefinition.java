@@ -1,6 +1,9 @@
 package com.udea.autoevaluacion.models;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +27,10 @@ public class QuestionDefinition {
 
     @Column(nullable = false)
     private String questionText;
+
+    @OneToMany(mappedBy = "questionDefinition", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "questionDefinition")
+    private List<AnswerOption> answerOptions;
 
     @ManyToOne
     @JoinColumn(name = "part_definition_id", nullable = false)
