@@ -1,12 +1,16 @@
 package com.udea.autoevaluacion.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.udea.autoevaluacion.constants.EndpointsConstants;
@@ -29,5 +33,10 @@ public class SubmissionController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionDTO> createSubmission(@Valid @RequestBody RegisterSubmissionDTO registerSubmissionDTO) {
         return new ResponseEntity<>(submissionService.createSubmission(registerSubmissionDTO), HttpStatus.CREATED); 
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<SubmissionDTO>> getSubmission(@RequestParam Long userId) {
+        return new ResponseEntity<>(submissionService.getSubmissionsByUserId(userId), HttpStatus.OK);
     }
 }

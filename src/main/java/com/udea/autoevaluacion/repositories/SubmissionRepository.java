@@ -13,7 +13,7 @@ import com.udea.autoevaluacion.models.User;
 
 @Repository
 public interface SubmissionRepository extends JpaRepository<Submission, Long> {
-    List<Submission> findByUser(User user);
+    List<Submission> findAllByUser_Id(Long userId);
 
     // Recupera toda la submission con sus partes, respuestas y metricas.
     @Query("SELECT s FROM Submission s JOIN FETCH s.submissionParts sp JOIN FETCH sp.submissionAnswers sa JOIN FETCH sa.questionDefinition qd JOIN FETCH sp.partDefinition pd LEFT JOIN FETCH sp.submissionPartMetrics pm WHERE s.id = :id")
