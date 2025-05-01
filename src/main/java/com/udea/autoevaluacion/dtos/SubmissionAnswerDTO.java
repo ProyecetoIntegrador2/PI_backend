@@ -9,5 +9,7 @@ public class SubmissionAnswerDTO {
     private String questionNumber;
     private String questionText;
     private int actualLevel;
+    private String actualOptionText;
     private int targetLevel;
+    private String targetOptionText;
 }

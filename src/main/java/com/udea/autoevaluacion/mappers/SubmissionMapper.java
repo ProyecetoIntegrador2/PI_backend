@@ -22,6 +22,10 @@ public interface SubmissionMapper {
 
     @Mapping(target = "questionNumber", source = "questionDefinition.questionNumber")
     @Mapping(target = "questionText", source = "questionDefinition.questionText")
+    @Mapping(target = "actualLevel", source = "actualOption.optionLevel")
+    @Mapping(target = "actualOptionText", source = "actualOption.description")
+    @Mapping(target = "targetLevel", source = "targetOption.optionLevel")
+    @Mapping(target = "targetOptionText", source = "targetOption.description")
     SubmissionAnswerDTO toSubmissionAnswerDTO(SubmissionAnswer submissionAnswer);
 
     SubmissionPartMetricsDTO toSubmissionPartMetricsDTO(SubmissionPartMetrics submissionPartMetrics);
