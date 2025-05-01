@@ -14,4 +14,5 @@ public class SubmissionDTO {
     private String formVersion;
     private LocalDateTime submissionDate;
     private List<SubmissionPartDTO> submissionParts;
+    private SubmissionMetricsDTO submissionMetrics;
 }

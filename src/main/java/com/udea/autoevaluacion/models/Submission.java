@@ -33,4 +33,7 @@ public class Submission {
     @ManyToOne
     @JoinColumn(name = "form_definition_id", nullable = false)
     private FormDefinition formDefinition;
+
+    @OneToOne(mappedBy = "submission", cascade = CascadeType.ALL, orphanRemoval = true)
+    private SubmissionMetrics submissionMetrics;
 }
