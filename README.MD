@@ -42,6 +42,9 @@ Todas las apis tienen el prefijo **/api**
 /api/register/company
 /api/login
 /api/companies # Devuelve todas las compañias en una lista
+/api/form-definition/latest/Autoevaluacion #Autoevaluacion es el nombre del formulario. Retorna el ultimo formulario (se filtra por version)
+/api/submission #POST - Se debe enviar un Submission JSON (ver pull request)
+/api/submission?userId=x #GET - Retorna los formularios del usuario
 ```
 
 Y la forma en como estan establecidos los usuarios y compañias es la siguiente:
