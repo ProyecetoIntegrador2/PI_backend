@@ -14,6 +14,8 @@ public interface SubmissionMapper {
     @Mapping(target = "formVersion", source = "formDefinition.formVersion")
     SubmissionDTO toSubmissionDTO(Submission submission);
 
+    SubmissionMetricsDTO toSubmissionMetricsDTO(SubmissionMetrics submissionMetrics);
+
     @Mapping(target = "partNumber" , source = "partDefinition.partNumber")
     @Mapping(target = "partName" , source = "partDefinition.partName")
     SubmissionPartDTO toSubmissionPartDTO(SubmissionPart submissionPart);
