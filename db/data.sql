@@ -167,3 +167,32 @@ INSERT INTO public.question_definitions (id,question_number,question_text,part_d
 	 (5,5,'¿Cuál es la visión a largo plazo de TI en tu organización?',1);
 INSERT INTO public.users (id,email,first_name,job_title,last_name,"password",years_of_experience_technology,company_id) VALUES
 	 (1,'alice.smith@example.com','Alice','Software Engineer','Smith','$2a$10$QNMmwBz05T2PXQ6Uw7Q1SOuQ6bWFcgI9owKKL.q00HiNkckLWdriO','3',1);
+
+INSERT INTO public.answer_option_definitions (id,description,option_level,question_definition_id) VALUES
+	 (1,'Ad hoc, sin estructura definida.',1,1),
+	 (2,'Algunas prioridades claras, pero sin un plan estructurado.',2,1),
+	 (3,'Existencia de un plan documentado y presupuestos definidos.',3,1),
+	 (4,'Completa alineación con la estrategia empresarial.',4,1),
+	 (5,'Estrategia empresarial liderada por lo digital.',5,1),
+	 (6,'Basadas en demandas inmediatas, sin estrategia a largo plazo.',1,2),
+	 (7,'Con alguna consideración a la relevancia estratégica.',2,2),
+	 (8,'Se priorizan según un plan de TI que refleja necesidades a medio plazo.',3,2),
+	 (9,'En alineación con objetivos estratégicos claros y a largo plazo.',4,2),
+	 (10,'Liderando la dirección estratégica de la empresa, con TI como un motor clave.',5,2);
+INSERT INTO public.answer_option_definitions (id,description,option_level,question_definition_id) VALUES
+	 (11,'Papel limitado y reactivo.',1,3),
+	 (12,'Reconocido, pero no completamente integrado.',2,3),
+	 (13,'Considerado en la planificación estratégica.',3,3),
+	 (14,'Clave en la definición de estrategias empresariales.',4,3),
+	 (15,'Impulsor principal de la estrategia empresarial.',5,3),
+	 (16,'Asignación según demanda, sin planificación.',1,4),
+	 (17,'Con esfuerzos para ajustarse a las necesidades más urgentes.',2,4),
+	 (18,'Con recursos asignados según un plan de desarrollo de TI.',3,4),
+	 (19,'Optimizados para alinear con la estrategia empresarial.',4,4),
+	 (20,'Máxima eficiencia y efectividad, liderando la transformación digital.',5,4);
+INSERT INTO public.answer_option_definitions (id,description,option_level,question_definition_id) VALUES
+	 (21,'No se contempla una visión a largo plazo.',1,5),
+	 (22,'Visión a corto plazo, centrada en resolver problemas operativos.',1,5),
+	 (23,'Visión de mediano plazo, con objetivos claros.',1,5),
+	 (24,'Visión estratégica integrada con los planes empresariales.',1,5),
+	 (25,'Visionaria y transformadora, con TI como eje central del desarrollo empresarial.',1,5);
