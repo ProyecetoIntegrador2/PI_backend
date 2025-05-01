@@ -3,9 +3,12 @@ spring:
     name: autoevaluacion
   jpa:
     database: postgresql
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
 
   datasource:
     url: jdbc:postgresql://db:5432/autoevaluacion
@@ -23,3 +26,7 @@ server:
 
 frontend:
   origin: http://localhost:3000
+
+logging:
+  level:
+    '[org.hibernate.sql]': DEBUG

@@ -2,6 +2,8 @@ package com.udea.autoevaluacion.models;
 
 import java.util.List;
 
+import org.hibernate.annotations.BatchSize;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -28,12 +30,13 @@ public class PartDefinition {
     @Column(nullable = false)
     private String partName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_definition_id", nullable = false)
     @JsonBackReference(value = "formDefinition")
     private FormDefinition formDefinition;
 
-    @OneToMany(mappedBy = "partDefinition")
+    @OneToMany(mappedBy = "partDefinition", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @BatchSize(size = 10)
     @JsonManagedReference(value = "partDefinition")
     private List<QuestionDefinition> questionDefinitions;
 }
