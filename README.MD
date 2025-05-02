@@ -17,10 +17,8 @@ Herramienta para apoyar procesos de transformación digital.
 1.  Clonar el repositorio
 2.  Ejecutar los comandos de Docker y Docker Compose.
     ```bash
-    docker build -t autoevaluacion .
+    docker compose up -d --build
     # Por defecto se ejecuta el perfil dev por lo tanto la configuracion de application-dev.yml
-
-    docker compose up -d
     ```
 3.  El backend entonces se ejecuta en el puerto 8080 y la base de datos en 5432. 
 
