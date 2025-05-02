@@ -1,30 +1,34 @@
-# Use the official OpenJDK 17 image as a base
-FROM openjdk:17-jdk-slim AS build
+# syntax=docker/dockerfile:1.4
 
-# Set the working directory
+### --- Build Stage ---
+FROM eclipse-temurin:17-jdk AS build
+
 WORKDIR /app
 
+# Copy Maven wrapper and configs
 COPY mvnw .
 COPY .mvn .mvn
-
-# Copy the pom.xml and the source code
 COPY pom.xml .
+
+# Pre-download dependencies with caching
+RUN --mount=type=cache,target=/root/.m2 ./mvnw -B dependency:go-offline dependency:resolve-plugins dependency:resolve
+
+# Now copy the source code
 COPY src ./src
 
 # Build the application
-RUN ./mvnw clean package -DskipTests
+RUN --mount=type=cache,target=/root/.m2 ./mvnw -B clean package -DskipTests
 
-# Use a smaller image for the runtime
-FROM openjdk:17-jdk-slim
+### --- Runtime Stage ---
+FROM eclipse-temurin:17-jdk
 
-# Set the working directory
 WORKDIR /app
 
-# Copy the jar file from the build stage
+# Copy only the built jar
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose the application port (change if necessary)
+# Expose app port
 EXPOSE 8080
 
-# Command to run the application
+# Run the app
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

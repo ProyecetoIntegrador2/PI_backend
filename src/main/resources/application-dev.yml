@@ -8,11 +8,13 @@ spring:
       ddl-auto: update
 
   datasource:
-    plataform: postgresql
     url: jdbc:postgresql://db:5432/autoevaluacion
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      platform: postgresql
 
 server:
   port: 8080

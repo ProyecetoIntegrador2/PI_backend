@@ -1,14 +1,10 @@
 package com.udea.autoevaluacion.dtos;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserDTO {
     private Long id;
     private String firstName;
