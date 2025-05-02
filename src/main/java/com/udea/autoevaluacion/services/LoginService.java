@@ -7,6 +7,8 @@ import com.udea.autoevaluacion.dtos.LoginDTO;
 import com.udea.autoevaluacion.dtos.UserDTO;
 import com.udea.autoevaluacion.models.User;
 import com.udea.autoevaluacion.repositories.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class LoginService {
     private final UserRepository userRepository;
@@ -17,6 +19,7 @@ public class LoginService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional(readOnly = true)
     public UserDTO login(LoginDTO loginDTO) throws Exception{
         User user = userRepository.findByEmail(loginDTO.getEmail())
                 .orElseThrow(() -> new Exception("Usuario no encontrado"));
@@ -25,14 +28,15 @@ public class LoginService {
             throw new Exception("Contraseña incorrecta");
         }
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setJobTitle(user.getJobTitle());
-        userDTO.setCompanyName(user.getCompany().getName());
-        userDTO.setYearsOfExperienceTechnology(user.getYearsOfExperienceTechnology());
+        UserDTO userDTO = UserDTO.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .jobTitle(user.getJobTitle())
+                .companyName(user.getCompany().getName())
+                .yearsOfExperienceTechnology(user.getYearsOfExperienceTechnology())
+                .build();
 
         return userDTO;
     }
