@@ -191,6 +191,55 @@ CREATE TABLE public.submission_part_metrics (
 	CONSTRAINT fkq2njk2wh9jfrx55se5jgtg9hg FOREIGN KEY (submission_part_id) REFERENCES public.submission_parts(id)
 );
 
+INSERT INTO public.form_definitions (form_name,form_version) VALUES
+	 ('Autoevaluacion','1.0');
+INSERT INTO public.part_definitions (part_name,part_number,form_definition_id) VALUES
+	 ('Estrategia de TI',1,1),
+	 ('Inteligencia de Datos',2,1),
+	 ('Capacidad de TI ',3,1),
+	 ('Procesos',4,1),
+	 ('Experiencia del usuario ',5,1),
+	 ('Riesgo y Cumplimiento',6,1),
+	 ('Cultura Digital',7,1);
+INSERT INTO public.question_definitions (question_number,question_text,part_definition_id) VALUES
+	 (1,'¿Cómo describirías la planificación de tecnología de información en tu organización?',1),
+	 (2,'¿Cómo se priorizan las inversiones en TI en tu organización?',1),
+	 (3,'¿Qué papel juega TI en la estrategia organizacional?',1),
+	 (4,'¿Cómo se gestionan los recursos de TI?',1),
+	 (5,'¿Cuál es la visión a largo plazo de TI en tu organización?',1),
+	 (6,'¿Qué tipo de informes utiliza tu organización para la toma de decisiones?',2),
+	 (7,'¿Cómo se recolectan y analizan los datos en tu organización?',2),
+	 (8,'¿Cuál es el nivel de accesibilidad a los datos en tu organización?',2),
+	 (9,'¿Qué tan avanzadas son las capacidades de análisis de datos de tu organización?',2),
+	 (10,'¿Cómo se utilizan los datos para apoyar la estrategia de la organización?',2);
+INSERT INTO public.question_definitions (question_number,question_text,part_definition_id) VALUES
+	 (11,'¿Cómo describirías las habilidades digitales generales en tu organización?',3),
+	 (12,'¿Cómo se gestiona el talento digital en tu organización?',3),
+	 (13,'¿Cuál es la capacidad de adaptación tecnológica de tu organización?',3),
+	 (14,'¿Cómo se priorizan y se implementan las inversiones en tecnología en tu organización?',3),
+	 (15,'¿Cómo se evalúa el impacto de las tecnologías implementadas en tu organización?',3),
+	 (16,'¿Cómo se gestionan los procesos operativos en tu organización?',4),
+	 (17,'¿Qué nivel de integración tecnológica existe en los procesos de negocio?',4),
+	 (18,'¿Cómo se documentan y se mantienen los procesos en tu organización?',4),
+	 (19,'¿Cómo responde tu organización a cambios en los procesos requeridos por nuevas necesidades de negocio?',4),
+	 (20,'¿Cómo se mide la eficiencia de los procesos en tu organización?',4);
+INSERT INTO public.question_definitions (question_number,question_text,part_definition_id) VALUES
+	 (21,'¿Cómo se evalúa la experiencia del usuario en los servicios digitales ofrecidos?',5),
+	 (22,'¿Qué enfoque se hacia el diseño de la experiencia del usuario?',5),
+	 (23,'¿Cómo se integra la retroalimentación del usuario en el desarrollo de productos y servicios?',5),
+	 (24,'¿Cómo se gestionan las expectativas de los usuarios en relación con la tecnología y servicios ofrecidos?',5),
+	 (25,'¿Qué importancia tiene la accesibilidad en los servicios digitales de tu organización?',5),
+	 (26,'¿Cómo se gestiona el riesgo digital en tu organización?',6),
+	 (27,'¿Cómo se asegura el cumplimiento de normativas en tu organización?',6),
+	 (28,'¿Cuál es el nivel de conciencia sobre seguridad digital en tu organización?',6),
+	 (29,'¿Cómo se gestionan los datos y la privacidad de los usuarios?',6),
+	 (30,'¿Cómo se identifican y gestionan los riesgos emergentes en tecnología?',6);
+INSERT INTO public.question_definitions (question_number,question_text,part_definition_id) VALUES
+	 (31,'¿Cómo describirías la cultura digital en tu organización?',7),
+	 (32,'¿Cómo se promueve la innovación digital en tu organización?',7),
+	 (33,'¿Cómo se entrena a los empleados en herramientas y prácticas digitales?',7),
+	 (34,'¿Cómo se maneja el cambio hacia la digitalización en tu organización?',7),
+	 (35,'¿Cuál es la actitud general hacia el uso y adopción de nuevas tecnologías?',7);
 INSERT INTO public.answer_option_definitions (description,option_level,question_definition_id) VALUES
 	 ('Ad hoc, sin estructura definida.',1,1),
 	 ('Algunas prioridades claras, pero sin un plan estructurado.',2,1),
@@ -386,54 +435,5 @@ INSERT INTO public.answer_option_definitions (description,option_level,question_
 	 ('Visionaria y pionera, buscando constantemente liderar a través de la tecnología.',5,35);
 INSERT INTO public.companies (country,"name",number_of_employees,organization_sector,organization_type) VALUES
 	 ('USA','Test Company','50-100','Technology','Private');
-INSERT INTO public.form_definitions (form_name,form_version) VALUES
-	 ('Autoevaluacion','1.0');
-INSERT INTO public.part_definitions (part_name,part_number,form_definition_id) VALUES
-	 ('Estrategia de TI',1,1),
-	 ('Inteligencia de Datos',2,1),
-	 ('Capacidad de TI ',3,1),
-	 ('Procesos',4,1),
-	 ('Experiencia del usuario ',5,1),
-	 ('Riesgo y Cumplimiento',6,1),
-	 ('Cultura Digital',7,1);
-INSERT INTO public.question_definitions (question_number,question_text,part_definition_id) VALUES
-	 (1,'¿Cómo describirías la planificación de tecnología de información en tu organización?',1),
-	 (2,'¿Cómo se priorizan las inversiones en TI en tu organización?',1),
-	 (3,'¿Qué papel juega TI en la estrategia organizacional?',1),
-	 (4,'¿Cómo se gestionan los recursos de TI?',1),
-	 (5,'¿Cuál es la visión a largo plazo de TI en tu organización?',1),
-	 (6,'¿Qué tipo de informes utiliza tu organización para la toma de decisiones?',2),
-	 (7,'¿Cómo se recolectan y analizan los datos en tu organización?',2),
-	 (8,'¿Cuál es el nivel de accesibilidad a los datos en tu organización?',2),
-	 (9,'¿Qué tan avanzadas son las capacidades de análisis de datos de tu organización?',2),
-	 (10,'¿Cómo se utilizan los datos para apoyar la estrategia de la organización?',2);
-INSERT INTO public.question_definitions (question_number,question_text,part_definition_id) VALUES
-	 (11,'¿Cómo describirías las habilidades digitales generales en tu organización?',3),
-	 (12,'¿Cómo se gestiona el talento digital en tu organización?',3),
-	 (13,'¿Cuál es la capacidad de adaptación tecnológica de tu organización?',3),
-	 (14,'¿Cómo se priorizan y se implementan las inversiones en tecnología en tu organización?',3),
-	 (15,'¿Cómo se evalúa el impacto de las tecnologías implementadas en tu organización?',3),
-	 (16,'¿Cómo se gestionan los procesos operativos en tu organización?',4),
-	 (17,'¿Qué nivel de integración tecnológica existe en los procesos de negocio?',4),
-	 (18,'¿Cómo se documentan y se mantienen los procesos en tu organización?',4),
-	 (19,'¿Cómo responde tu organización a cambios en los procesos requeridos por nuevas necesidades de negocio?',4),
-	 (20,'¿Cómo se mide la eficiencia de los procesos en tu organización?',4);
-INSERT INTO public.question_definitions (question_number,question_text,part_definition_id) VALUES
-	 (21,'¿Cómo se evalúa la experiencia del usuario en los servicios digitales ofrecidos?',5),
-	 (22,'¿Qué enfoque se hacia el diseño de la experiencia del usuario?',5),
-	 (23,'¿Cómo se integra la retroalimentación del usuario en el desarrollo de productos y servicios?',5),
-	 (24,'¿Cómo se gestionan las expectativas de los usuarios en relación con la tecnología y servicios ofrecidos?',5),
-	 (25,'¿Qué importancia tiene la accesibilidad en los servicios digitales de tu organización?',5),
-	 (26,'¿Cómo se gestiona el riesgo digital en tu organización?',6),
-	 (27,'¿Cómo se asegura el cumplimiento de normativas en tu organización?',6),
-	 (28,'¿Cuál es el nivel de conciencia sobre seguridad digital en tu organización?',6),
-	 (29,'¿Cómo se gestionan los datos y la privacidad de los usuarios?',6),
-	 (30,'¿Cómo se identifican y gestionan los riesgos emergentes en tecnología?',6);
-INSERT INTO public.question_definitions (question_number,question_text,part_definition_id) VALUES
-	 (31,'¿Cómo describirías la cultura digital en tu organización?',7),
-	 (32,'¿Cómo se promueve la innovación digital en tu organización?',7),
-	 (33,'¿Cómo se entrena a los empleados en herramientas y prácticas digitales?',7),
-	 (34,'¿Cómo se maneja el cambio hacia la digitalización en tu organización?',7),
-	 (35,'¿Cuál es la actitud general hacia el uso y adopción de nuevas tecnologías?',7);
 INSERT INTO public.users (email,first_name,job_title,last_name,"password",years_of_experience_technology,company_id) VALUES
 	 ('alice.smith@example.com','Alice','Software Engineer','Smith','$2a$10$QNMmwBz05T2PXQ6Uw7Q1SOuQ6bWFcgI9owKKL.q00HiNkckLWdriO','3',1);
