@@ -29,15 +29,15 @@ public class SubmissionMetrics {
     @Column(name = "average_desired_score")
     private int averageDesiredScore;
 
-    //Criterio de mayoría calificada
+    // Criterio de mayoría calificada
     @Column(name = "qualified_majority_criterion")
-    private BigDecimal qualifiedMajorityCriterion;
+    private int qualifiedMajorityCriterion;
 
-    //Punto de corte mayoritario
+    // Punto de corte mayoritario
     @Column(name = "majority_cut_off_level")
-    private Integer majorityCutOffLevel;
+    private int majorityCutOffLevel;
 
-    //Scoring basado en umbral
+    // Scoring basado en umbral
     @Column(name = "threshold_based_scoring")
-    private BigDecimal thresholdBasedScoring;
+    private int thresholdBasedScoring;
 }
