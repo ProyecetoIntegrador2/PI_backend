@@ -46,7 +46,8 @@ public class SubmissionService {
             SubmissionPartRepository submissionPartRepository,
             SubmissionAnswerRepository submissionAnswerRepository,
             SubmissionPartMetricsRepository submissionPartMetricsRepository,
-            UserRepository userRepository, FormDefinitionRepository formDefinitionRepository, MetricsService metricsService, SubmissionMapper submissionMapper) {
+            UserRepository userRepository, FormDefinitionRepository formDefinitionRepository,
+            MetricsService metricsService, SubmissionMapper submissionMapper) {
         this.submissionRepository = submissionRepository;
         this.submissionPartRepository = submissionPartRepository;
         this.submissionAnswerRepository = submissionAnswerRepository;
@@ -63,7 +64,7 @@ public class SubmissionService {
         submission.setSubmissionDate(LocalDateTime.now());
 
         User user = userRepository.findById(registerSubmissionDTO.getUserId())
-        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         FormDefinition formDefinition = formDefinitionRepository
                 .findById(registerSubmissionDTO.getFormDefinitionId())
@@ -71,8 +72,9 @@ public class SubmissionService {
 
         List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO = registerSubmissionDTO.getRegisterSubmissionParts();
         List<PartDefinition> partDefinitions = formDefinition.getPartDefinitions();
-        
-        List<SubmissionPart> submissionParts = createSubmissionParts(submission, registerSubmissionPartsDTO, partDefinitions);
+
+        List<SubmissionPart> submissionParts = createSubmissionParts(submission, registerSubmissionPartsDTO,
+                partDefinitions);
 
         submission.setFormDefinition(formDefinition);
         submission.setSubmissionParts(submissionParts);
@@ -88,22 +90,26 @@ public class SubmissionService {
         return submissionDTO;
     }
 
-    private List<SubmissionPart> createSubmissionParts(Submission submission, List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO, List<PartDefinition> partDefinitions) {
+    private List<SubmissionPart> createSubmissionParts(Submission submission,
+            List<RegisterSubmissionPartDTO> registerSubmissionPartsDTO, List<PartDefinition> partDefinitions) {
         List<SubmissionPart> submissionParts = new ArrayList<>();
         for (RegisterSubmissionPartDTO registerSubmissionPartDTO : registerSubmissionPartsDTO) {
             SubmissionPart submissionPart = new SubmissionPart();
-            
+
             int partNumber = registerSubmissionPartDTO.getPartNumber();
             PartDefinition partDefinition = partDefinitions.stream()
                     .filter(part -> part.getPartNumber() == partNumber)
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("Parte del formulario no encontrada"));
 
-            List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO = registerSubmissionPartDTO.getRegisterSubmissionAnswers();
-            List<SubmissionAnswer> submissionAnswers = createSubmissionAnswers(submissionPart, partDefinition, registerSubmissionAnswersDTO);
+            List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO = registerSubmissionPartDTO
+                    .getRegisterSubmissionAnswers();
+            List<SubmissionAnswer> submissionAnswers = createSubmissionAnswers(submissionPart, partDefinition,
+                    registerSubmissionAnswersDTO);
 
-            SubmissionPartMetrics submissionPartMetrics = calculateSubmissionPartMetrics(submissionAnswers, submissionPart);
-                
+            SubmissionPartMetrics submissionPartMetrics = calculateSubmissionPartMetrics(submissionAnswers,
+                    submissionPart);
+
             submissionPart.setPartDefinition(partDefinition);
             submissionPart.setSubmission(submission);
             submissionPart.setSubmissionAnswers(submissionAnswers);
@@ -114,52 +120,66 @@ public class SubmissionService {
         return submissionParts;
     }
 
-    private SubmissionPartMetrics calculateSubmissionPartMetrics(List<SubmissionAnswer> submissionAnswers, SubmissionPart submissionPart) {
+    private SubmissionPartMetrics calculateSubmissionPartMetrics(List<SubmissionAnswer> submissionAnswers,
+            SubmissionPart submissionPart) {
         int totalDesired = submissionAnswers.stream()
                 .mapToInt(submissionAnswer -> submissionAnswer.getTargetOption().getOptionLevel())
                 .sum();
         int totalActual = submissionAnswers.stream()
                 .mapToInt(submissionAnswer -> submissionAnswer.getActualOption().getOptionLevel())
                 .sum();
-        
-        int averageActualScore = metricsService.calculateAverageActualScore(totalActual, submissionAnswers.size());
-        int averageDesiredScore = metricsService.calculateAverageDesiredScore(totalDesired, submissionAnswers.size());
+
+        int averageActualScore = metricsService.calculateAverage(totalActual, submissionAnswers.size());
+        int averageDesiredScore = metricsService.calculateAverage(totalDesired, submissionAnswers.size());
+
+        // Calcular el scoring basado en umbral
+        int thresholdBasedScoring = metricsService.calculateThresholdBasedScoring(submissionAnswers);
+
+        // Calcular el criterio de mayoría calificada
+        int qualifiedMajorityCriterion = metricsService.calculateQualifiedMajorityCriterion(submissionAnswers);
+
+        // Calcular el punto de corte mayoritario
+        int majorityCutOffLevel = metricsService.calculateMajorityCutOffLevel(submissionAnswers);
 
         SubmissionPartMetrics submissionPartMetrics = new SubmissionPartMetrics();
         submissionPartMetrics.setSubmissionPart(submissionPart);
         submissionPartMetrics.setAverageActualScore(averageActualScore);
         submissionPartMetrics.setAverageDesiredScore(averageDesiredScore);
-        
+        submissionPartMetrics.setThresholdBasedScoring(thresholdBasedScoring);
+        submissionPartMetrics.setQualifiedMajorityCriterion(qualifiedMajorityCriterion);
+        submissionPartMetrics.setMajorityCutOffLevel(majorityCutOffLevel);
+
         return submissionPartMetrics;
     }
 
-    private List<SubmissionAnswer> createSubmissionAnswers(SubmissionPart submissionPart, PartDefinition partDefinition, List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO) {
+    private List<SubmissionAnswer> createSubmissionAnswers(SubmissionPart submissionPart, PartDefinition partDefinition,
+            List<RegisterSubmissionAnswerDTO> registerSubmissionAnswersDTO) {
         List<SubmissionAnswer> submissionAnswers = registerSubmissionAnswersDTO.stream()
-                        .map(answer -> {
-                            SubmissionAnswer submissionAnswer = new SubmissionAnswer();
-                            QuestionDefinition questionDefinition = partDefinition.getQuestionDefinitions().stream()
-                                    .filter(question -> question.getQuestionNumber() == answer.getQuestionNumber())
-                                    .findFirst()
-                                    .orElseThrow(() -> new RuntimeException("Definicion de la pregunta no encontrada"));
-                            
-                            AnswerOptionDefinition actualOption = questionDefinition.getAnswerOptions().stream()
-                                    .filter(option -> option.getOptionLevel() == answer.getActualLevel())
-                                    .findFirst()
-                                    .orElseThrow(() -> new RuntimeException("Opcion de respuesta no encontrada"));
-                            
-                            AnswerOptionDefinition desiredOption = questionDefinition.getAnswerOptions().stream()
-                                    .filter(option -> option.getOptionLevel() == answer.getTargetLevel())
-                                    .findFirst()
-                                    .orElseThrow(() -> new RuntimeException("Opcion de respuesta no encontrada"));
+                .map(answer -> {
+                    SubmissionAnswer submissionAnswer = new SubmissionAnswer();
+                    QuestionDefinition questionDefinition = partDefinition.getQuestionDefinitions().stream()
+                            .filter(question -> question.getQuestionNumber() == answer.getQuestionNumber())
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Definicion de la pregunta no encontrada"));
 
-                            submissionAnswer.setQuestionDefinition(questionDefinition);
-                            submissionAnswer.setActualOption(actualOption);
-                            submissionAnswer.setTargetOption(desiredOption);
-                            submissionAnswer.setSubmissionPart(submissionPart);
-                            
-                            return submissionAnswer;
-                        })
-                        .collect(Collectors.toList());
+                    AnswerOptionDefinition actualOption = questionDefinition.getAnswerOptions().stream()
+                            .filter(option -> option.getOptionLevel() == answer.getActualLevel())
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Opcion de respuesta no encontrada"));
+
+                    AnswerOptionDefinition desiredOption = questionDefinition.getAnswerOptions().stream()
+                            .filter(option -> option.getOptionLevel() == answer.getTargetLevel())
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Opcion de respuesta no encontrada"));
+
+                    submissionAnswer.setQuestionDefinition(questionDefinition);
+                    submissionAnswer.setActualOption(actualOption);
+                    submissionAnswer.setTargetOption(desiredOption);
+                    submissionAnswer.setSubmissionPart(submissionPart);
+
+                    return submissionAnswer;
+                })
+                .collect(Collectors.toList());
         return submissionAnswers;
     }
 
@@ -173,18 +193,18 @@ public class SubmissionService {
                 .flatMap(part -> part.getSubmissionAnswers().stream())
                 .mapToInt(submissionAnswer -> submissionAnswer.getActualOption().getOptionLevel())
                 .sum();
-        
+
         int totalCountQuestions = submissionParts.stream()
                 .mapToInt(part -> part.getSubmissionAnswers().size())
                 .sum();
 
-        int averageActualScore = metricsService.calculateAverageActualScore(totalActual, totalCountQuestions);
-        int averageDesiredScore = metricsService.calculateAverageDesiredScore(totalDesired, totalCountQuestions);
+        int averageActualScore = metricsService.calculateAverage(totalActual, totalCountQuestions);
+        int averageDesiredScore = metricsService.calculateAverage(totalDesired, totalCountQuestions);
 
         submissionMetrics.setSubmission(submission);
         submissionMetrics.setAverageActualScore(averageActualScore);
         submissionMetrics.setAverageDesiredScore(averageDesiredScore);
-        
+
         return submissionMetrics;
     }
 
