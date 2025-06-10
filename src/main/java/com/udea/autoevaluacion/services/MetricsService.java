@@ -68,21 +68,4 @@ public class MetricsService {
         return 0;
     }
 
-    public int calculateQualifiedMajorityCriterion(List<SubmissionAnswer> submissionAnswers) {
-        for (int currentLevel = MaxLevel; currentLevel >= MinLevel; currentLevel--) {
-            final int current = currentLevel;
-
-            long count = submissionAnswers.stream()
-                    .mapToInt(answer -> answer.getActualOption().getOptionLevel())
-                    .filter(level -> level >= current)
-                    .count();
-
-            double percentage = (count / (double) submissionAnswers.size()) * 100;
-
-            if (percentage >= MajorityCutOff) {
-                return currentLevel;
-            }
-        }
-        return 0;
-    }
 }
