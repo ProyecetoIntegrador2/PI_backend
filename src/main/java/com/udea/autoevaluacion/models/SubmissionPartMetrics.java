@@ -29,10 +29,6 @@ public class SubmissionPartMetrics {
     @Column(name = "average_desired_score")
     private int averageDesiredScore;
 
-    // Criterio de mayoría calificada
-    @Column(name = "qualified_majority_criterion")
-    private int qualifiedMajorityCriterion;
-
     // Punto de corte mayoritario
     @Column(name = "majority_cut_off_level")
     private int majorityCutOffLevel;

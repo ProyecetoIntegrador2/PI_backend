@@ -135,9 +135,6 @@ public class SubmissionService {
         // Calcular el scoring basado en umbral
         int thresholdBasedScoring = metricsService.calculateThresholdBasedScoring(submissionAnswers);
 
-        // Calcular el criterio de mayoría calificada
-        int qualifiedMajorityCriterion = metricsService.calculateQualifiedMajorityCriterion(submissionAnswers);
-
         // Calcular el punto de corte mayoritario
         int majorityCutOffLevel = metricsService.calculateMajorityCutOffLevel(submissionAnswers);
 
@@ -146,7 +143,6 @@ public class SubmissionService {
         submissionPartMetrics.setAverageActualScore(averageActualScore);
         submissionPartMetrics.setAverageDesiredScore(averageDesiredScore);
         submissionPartMetrics.setThresholdBasedScoring(thresholdBasedScoring);
-        submissionPartMetrics.setQualifiedMajorityCriterion(qualifiedMajorityCriterion);
         submissionPartMetrics.setMajorityCutOffLevel(majorityCutOffLevel);
 
         return submissionPartMetrics;

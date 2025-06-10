@@ -10,7 +10,6 @@ import lombok.Value;
 public class SubmissionMetricsDTO {
     private int averageActualScore;
     private int averageDesiredScore;
-    private BigDecimal qualifiedMajorityCriterion;
-    private Integer majorityCutOffLevel;
-    private BigDecimal thresholdBasedScoring;
+    private int majorityCutOffLevel;
+    private int thresholdBasedScoring;
 }
