@@ -68,4 +68,7 @@ public class MetricsService {
         return 0;
     }
 
+    public int gapPerPart(List<SubmissionAnswer> submissionAnswers) {
+        return 0;
+    }
 }
