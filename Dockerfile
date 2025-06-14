@@ -13,6 +13,9 @@ COPY pom.xml .
 # Pre-download dependencies with caching
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -B dependency:go-offline dependency:resolve-plugins dependency:resolve
 
+# Make mvnw executable
+RUN chmod +x mvnw
+
 # Now copy the source code
 COPY src ./src
 
