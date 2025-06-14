@@ -1,0 +1,14 @@
+# application.yml (Base/Common Configuration)
+spring:
+  application:
+    name: autoevaluacion
+  jpa:
+    database: postgresql
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
