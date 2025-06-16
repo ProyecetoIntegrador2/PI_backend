@@ -127,8 +127,7 @@ CREATE TABLE public.submission_metrics (
 	average_actual_score int4 NULL,
 	average_desired_score int4 NULL,
 	majority_cut_off_level int4 NULL,
-	qualified_majority_criterion numeric(38, 2) NULL,
-	threshold_based_scoring numeric(38, 2) NULL,
+	threshold_based_scoring int4 NULL,
 	submission_id int8 NOT NULL,
 	CONSTRAINT submission_metrics_pkey PRIMARY KEY (id),
 	CONSTRAINT uk_q5k38g9prtkcj3rl60sab5tbr UNIQUE (submission_id),
@@ -152,6 +151,25 @@ CREATE TABLE public.submission_parts (
 );
 
 
+-- public.submission_part_metrics definition
+
+-- Drop table
+
+-- DROP TABLE public.submission_part_metrics;
+
+CREATE TABLE public.submission_part_metrics (
+	id bigserial NOT NULL,
+	average_actual_score int4 NULL,
+	average_desired_score int4 NULL,
+	majority_cut_off_level int4 NULL,
+	threshold_based_scoring int4 NULL,
+	submission_part_id int8 NOT NULL,
+	CONSTRAINT submission_part_metrics_pkey PRIMARY KEY (id),
+	CONSTRAINT uk_6opjhsimehwuomoldxho3jsna UNIQUE (submission_part_id),
+	CONSTRAINT fkq2njk2wh9jfrx55se5jgtg9hg FOREIGN KEY (submission_part_id) REFERENCES public.submission_parts(id)
+);
+
+
 -- public.submission_questions definition
 
 -- Drop table
@@ -169,26 +187,6 @@ CREATE TABLE public.submission_questions (
 	CONSTRAINT fkbsgseq3rxlx9fy04wuaj7j0n0 FOREIGN KEY (question_definition_id) REFERENCES public.question_definitions(id),
 	CONSTRAINT fkhquq37i4ej0ltbwumpuxjed4h FOREIGN KEY (submission_part_id) REFERENCES public.submission_parts(id),
 	CONSTRAINT fkiie0t42ox9h27pei5q8xt825g FOREIGN KEY (actual_option_id) REFERENCES public.answer_option_definitions(id)
-);
-
-
--- public.submission_part_metrics definition
-
--- Drop table
-
--- DROP TABLE public.submission_part_metrics;
-
-CREATE TABLE public.submission_part_metrics (
-	id bigserial NOT NULL,
-	average_actual_score int4 NULL,
-	average_desired_score int4 NULL,
-	majority_cut_off_level int4 NULL,
-	qualified_majority_criterion numeric(38, 2) NULL,
-	threshold_based_scoring numeric(38, 2) NULL,
-	submission_part_id int8 NOT NULL,
-	CONSTRAINT submission_part_metrics_pkey PRIMARY KEY (id),
-	CONSTRAINT uk_6opjhsimehwuomoldxho3jsna UNIQUE (submission_part_id),
-	CONSTRAINT fkq2njk2wh9jfrx55se5jgtg9hg FOREIGN KEY (submission_part_id) REFERENCES public.submission_parts(id)
 );
 
 INSERT INTO public.form_definitions (form_name,form_version) VALUES

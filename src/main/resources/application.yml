@@ -1,4 +1,3 @@
-# application.yml (Base/Common Configuration)
 spring:
   application:
     name: autoevaluacion
