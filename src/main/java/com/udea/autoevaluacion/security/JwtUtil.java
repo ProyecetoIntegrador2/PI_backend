@@ -1,4 +1,4 @@
-package com.udea.autoevaluacion.security; // You might want to create a 'security.jwt' package
+package com.udea.autoevaluacion.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
