@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5433/autoevaluacion
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+jwt:
+  secret: ${JWT_SECRET}

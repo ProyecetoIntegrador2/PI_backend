@@ -1,7 +1,7 @@
 package com.udea.autoevaluacion.models;
 
 import java.util.List;
-
+import java.util.Set;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,4 +43,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Submission> submissions;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private Set<String> roles;
 }
