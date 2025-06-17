@@ -14,6 +14,8 @@ import com.udea.autoevaluacion.repositories.UserRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @Service
 public class RegisterService {
 
@@ -21,17 +23,20 @@ public class RegisterService {
     private final PasswordEncoder passwordEncoder;
     private final CompanyRepository companyRepository;
 
-    public RegisterService(UserRepository userRepository, PasswordEncoder passwordEncoder, CompanyRepository companyRepository) {
+    public RegisterService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+            CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.companyRepository = companyRepository;
     }
 
     @Transactional
-    public UserDTO registerUser(RegisterUserDTO registerUserDTO) {;
+    public UserDTO registerUser(RegisterUserDTO registerUserDTO) {
+        ;
         String encodedPassword = passwordEncoder.encode(registerUserDTO.getPassword());
 
-        Company company = companyRepository.findById(registerUserDTO.getCompanyId()).orElseThrow(() -> new IllegalArgumentException("Empresa no encontrada"));
+        Company company = companyRepository.findById(registerUserDTO.getCompanyId())
+                .orElseThrow(() -> new IllegalArgumentException("Empresa no encontrada"));
 
         User user = userRepository.save(User.builder()
                 .firstName(registerUserDTO.getFirstName())
@@ -41,6 +46,7 @@ public class RegisterService {
                 .jobTitle(registerUserDTO.getJobTitle())
                 .yearsOfExperienceTechnology(registerUserDTO.getYearsOfExperienceTechnology())
                 .company(company)
+                .roles(Set.of("ROLE_USER"))
                 .build());
 
         UserDTO userDTO = UserDTO.builder()

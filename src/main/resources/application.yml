@@ -11,3 +11,6 @@ server:
   port: 8080
   servlet:
     context-path: /api
+
+jwt:
+  expiration: 43200000 # 12 Horas
