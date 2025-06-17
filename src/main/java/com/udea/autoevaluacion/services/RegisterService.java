@@ -32,7 +32,6 @@ public class RegisterService {
 
     @Transactional
     public UserDTO registerUser(RegisterUserDTO registerUserDTO) {
-        ;
         String encodedPassword = passwordEncoder.encode(registerUserDTO.getPassword());
 
         Company company = companyRepository.findById(registerUserDTO.getCompanyId())
